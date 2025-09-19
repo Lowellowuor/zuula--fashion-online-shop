@@ -1,0 +1,101 @@
+/* ===== Verification Center Styles ===== */
+
+.verification-center {
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.verification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.verification-header h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.verification-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.verification-actions button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.2s ease-in-out;
+}
+
+.verification-actions .approve-btn {
+  background: #4caf50;
+  color: white;
+}
+
+.verification-actions .approve-btn:hover {
+  background: #45a049;
+}
+
+.verification-actions .reject-btn {
+  background: #f44336;
+  color: white;
+}
+
+.verification-actions .reject-btn:hover {
+  background: #d32f2f;
+}
+
+.verification-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.verification-table th,
+.verification-table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.verification-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.verification-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.verification-status {
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.verification-status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.verification-status.approved {
+  background: #d4edda;
+  color: #155724;
+}
+
+.verification-status.rejected {
+  background: #f8d7da;
+  color: #721c24;
+}

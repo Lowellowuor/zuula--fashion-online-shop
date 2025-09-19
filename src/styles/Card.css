@@ -1,0 +1,62 @@
+/* ====== Card Styles ====== */
+
+.ui-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ui-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+
+/* Header */
+.ui-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.ui-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.ui-card-subtitle {
+  font-size: 14px;
+  color: #888;
+  margin: 2px 0 0 0;
+}
+
+.ui-card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Body */
+.ui-card-body {
+  flex: 1;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Footer */
+.ui-card-footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}

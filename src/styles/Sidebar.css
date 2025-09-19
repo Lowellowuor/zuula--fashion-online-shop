@@ -1,0 +1,121 @@
+/* Sidebar Container */
+.admin-sidebar {
+  background: #1f3c34; /* darker green tone for contrast */
+  color: #fff;
+  height: 100vh;
+  transition: width 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 2px 0 6px rgba(0,0,0,0.15);
+}
+
+.admin-sidebar.open {
+  width: 240px;
+}
+
+.admin-sidebar.closed {
+  width: 80px;
+}
+
+/* Header */
+.sidebar-header {
+  padding: 20px;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  background: #256f4c; /* accent strip */
+  letter-spacing: 0.5px;
+}
+
+.logo {
+  display: inline-block;
+}
+
+/* Navigation */
+.sidebar-nav {
+  flex: 1;
+  padding: 15px 0;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-item {
+  text-decoration: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 20px;
+  background: transparent;
+  color: #d4d4d4;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  margin: 4px 12px;
+}
+
+.sidebar-item:hover {
+  background: rgba(37,111,76,0.2);
+  color: #fff;
+}
+
+.sidebar-item.active {
+  background: #256f4c;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+/* Icon */
+.sidebar-icon {
+  font-size: 18px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Footer */
+.sidebar-footer {
+  padding: 15px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-footer .sidebar-item.logout {
+  color: #ffcccc;
+  justify-content: center;
+}
+
+.sidebar-footer .sidebar-item.logout:hover {
+  background: rgba(255,77,77,0.15);
+  color: #ff4d4d;
+}
+
+/* Toggle Button */
+.sidebar-toggle {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 8px 12px;
+  margin-top: 10px;
+  border-radius: 6px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-toggle:hover {
+  background: rgba(255,255,255,0.1);
+  color: #a8f0c9;
+}
