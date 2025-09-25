@@ -1,149 +1,373 @@
-// src/pages/HomePage.jsx
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 
-// Mock data (replace with API fetch later)
-const categories = ["Wedding", "Party", "Graduation", "Cultural", "Formal"];
-const trendingOutfits = [
-  { id: 1, title: "Red Dress", price: 50000, img: null },
-  { id: 2, title: "Blue Suit", price: 75000, img: null },
-  { id: 3, title: "Golden Gown", price: 120000, img: null },
-];
+const ProfessionalFashionHomepage = () => {
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [stats, setStats] = useState({ users: 0, listings: 0, rentals: 0 });
+  const [email, setEmail] = useState('');
 
-export default function HomePage() {
+  // Animated counter effect
+  useEffect(() => {
+    const animateCounter = (target, setter, duration = 2000) => {
+      let start = 0;
+      const increment = target / (duration / 16);
+      const timer = setInterval(() => {
+        start += increment;
+        if (start >= target) {
+          setter(target);
+          clearInterval(timer);
+        } else {
+          setter(Math.floor(start));
+        }
+      }, 16);
+    };
+
+    animateCounter(12500, (val) => setStats(prev => ({...prev, users: val})));
+    animateCounter(3400, (val) => setStats(prev => ({...prev, listings: val})));
+    animateCounter(8900, (val) => setStats(prev => ({...prev, rentals: val})));
+  }, []);
+
+  const testimonials = [
+    {
+      name: "Sarah K.",
+      role: "Frequent Event Attendee",
+      content: "Saved over 2M UGX last year by renting instead of buying new outfits for weddings!",
+      rating: 5
+    },
+    {
+      name: "Grace M.",
+      role: "Fashion Influencer",
+      content: "My closet is now earning me money. I've made 1.5M UGX renting out my designer pieces.",
+      rating: 5
+    },
+    {
+      name: "David T.",
+      role: "Wedding Planner",
+      content: "Recommend this to all my clients. The escrow system makes everything so secure.",
+      rating: 5
+    }
+  ];
+
+  const features = [
+    {
+      icon: "🔒",
+      title: "Secure Escrow Payments",
+      description: "Your money is held safely until you confirm receipt and satisfaction"
+    },
+    {
+      icon: "⭐",
+      title: "Verified Community",
+      description: "All users are ID-verified with ratings and reviews for trust"
+    },
+    {
+      icon: "🚚",
+      title: "Flexible Delivery Options",
+      description: "Choose pickup, delivery, or meetup based on your preference"
+    },
+    {
+      icon: "💎",
+      title: "Premium Luxury Access",
+      description: "Rent high-end designer pieces at a fraction of retail price"
+    }
+  ];
+
+  const trendingCategories = [
+    { name: "Wedding Guest", count: "1.2k+ outfits", color: "from-pink-500 to-rose-500" },
+    { name: "Traditional Gomesi", count: "800+ outfits", color: "from-purple-500 to-indigo-500" },
+    { name: "Cocktail Party", count: "950+ outfits", color: "from-blue-500 to-cyan-500" },
+    { name: "Graduation Gowns", count: "600+ outfits", color: "from-green-500 to-emerald-500" }
+  ];
+
   return (
-    <div className="min-h-screen pt-16 pb-20 px-4 md:px-20"> {/* Added min-h-screen and proper padding */}
-      <div className="space-y-16 py-8"> {/* Added vertical padding */}
-        {/* Hero Section */}
-        <section className="bg-gradient-to-r from-pink-100 to-purple-100 py-20 text-center rounded-2xl shadow-md">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">
-            Rent • Borrow • Repeat
-          </h1>
-          <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
-            Affordable Fashion for Every Event – Weddings, Parties, Graduations, and More
-          </p>
-          <div className="flex justify-center gap-4 flex-wrap">
-            <Link
-              to="/browse"
-              className="bg-emerald-600 text-white px-6 py-3 rounded-2xl font-medium hover:bg-emerald-700 transition-colors"
-            >
-              Browse Outfits
-            </Link>
-            <Link
-              to="/upload"
-              className="bg-white text-emerald-600 border border-emerald-600 px-6 py-3 rounded-2xl font-medium hover:bg-emerald-50 transition-colors"
-            >
-              Upload Clothes
-            </Link>
-          </div>
-        </section>
+    <div className="min-h-screen bg-background">
+      
+      {/* Hero Section with Search */}
+      <section className="relative bg-gradient-to-br from-primary-700 via-primary-600 to-primary-800 text-white py-20 lg:py-28">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center space-x-2 bg-white/10 rounded-full px-4 py-2 mb-6">
+              <span className="text-accent">✨</span>
+              <span className="text-sm">Trusted by {stats.users.toLocaleString()}+ Ugandan fashion lovers</span>
+            </div>
+            
+            <h1 className="text-5xl lg:text-6xl font-heading font-bold mb-6 leading-tight">
+              Your Fashion Freedom <span className="text-accent">Starts Here</span>
+            </h1>
+            
+            <p className="text-xl lg:text-2xl mb-8 text-primary-100 leading-relaxed">
+              Rent stunning outfits for every occasion. Earn from your closet. Sustainable, affordable, fabulous.
+            </p>
 
-        {/* How It Works */}
-        <section className="text-center">
-          <h2 className="text-3xl font-semibold mb-8">How It Works</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { title: "Upload", desc: "List your clothes in your digital closet for others to rent or buy." },
-              { title: "Browse", desc: "Discover fashion for weddings, parties, and all special occasions." },
-              { title: "Rent / Buy", desc: "Secure payments & deposits with Zuula escrow protection." },
-            ].map((item, i) => (
-              <div key={i} className="bg-white shadow-md rounded-2xl p-6 hover:scale-105 transition-transform">
-                <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                <p className="text-gray-600">{item.desc}</p>
+            {/* Search Bar */}
+            <div className="bg-white rounded-2xl p-2 shadow-2xl max-w-2xl mx-auto mb-8">
+              <div className="flex flex-col lg:flex-row gap-2">
+                <input 
+                  type="text" 
+                  placeholder="Search for dresses, Gomesi, suits, accessories..." 
+                  className="flex-1 px-6 py-4 text-text-primary rounded-xl border-0 focus:ring-2 focus:ring-primary"
+                />
+                <select className="px-4 py-4 text-text-primary rounded-xl border-0 focus:ring-2 focus:ring-primary">
+                  <option>All Categories</option>
+                  <option>Wedding Guest</option>
+                  <option>Traditional</option>
+                  <option>Cocktail</option>
+                  <option>Formal</option>
+                </select>
+                <button className="btn-primary px-8 py-4 rounded-xl font-semibold whitespace-nowrap">
+                  Search Outfits
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-6 text-sm">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-accent rounded-full"></div>
+                <span>✅ ID Verified Community</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-accent rounded-full"></div>
+                <span>🔒 Secure Escrow Payments</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-accent rounded-full"></div>
+                <span>⭐ 4.9/5 Rating</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 right-10 w-72 h-72 bg-accent rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 left-10 w-96 h-96 bg-accent rounded-full blur-3xl"></div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-white border-b border-background-200">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div className="space-y-2">
+              <div className="text-4xl font-bold text-primary-600">{stats.users.toLocaleString()}+</div>
+              <div className="text-text-secondary font-medium">Active Community Members</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-4xl font-bold text-primary-600">{stats.listings.toLocaleString()}+</div>
+              <div className="text-text-secondary font-medium">Fashion Items Available</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-4xl font-bold text-primary-600">{stats.rentals.toLocaleString()}+</div>
+              <div className="text-text-secondary font-medium">Successful Rentals</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Grid */}
+      <section id="features" className="py-20 bg-background-50">
+        <div className="container mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-4xl font-heading font-bold mb-4 text-primary-700">
+              Why Choose StyleShare?
+            </h2>
+            <p className="text-xl text-text-secondary">
+              We've built the most trusted fashion rental platform in Uganda with features designed for your safety and convenience.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <div key={index} className="premium-card text-center group hover:transform hover:-translate-y-2 transition-all duration-300">
+                <div className="text-4xl mb-4">{feature.icon}</div>
+                <h3 className="text-xl font-heading font-semibold mb-3 text-primary-600">{feature.title}</h3>
+                <p className="text-text-secondary">{feature.description}</p>
               </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Featured Categories */}
-        <section className="text-center">
-          <h2 className="text-3xl font-semibold mb-8">Featured Categories</h2>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-            {categories.map((category) => (
-              <Link
-                key={category}
-                to={`/browse?category=${category}`}
-                className="bg-white shadow-md hover:shadow-lg rounded-2xl p-6 font-bold block transition-shadow hover:text-emerald-600"
-              >
-                {category}
-              </Link>
-            ))}
+      {/* Trending Categories */}
+      <section id="categories" className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-4xl font-heading font-bold mb-4 text-primary-700">
+              Trending Categories
+            </h2>
+            <p className="text-xl text-text-secondary">
+              Discover the most popular outfit categories for Uganda's vibrant social scene
+            </p>
           </div>
-        </section>
 
-        {/* Trending Outfits */}
-        <section className="text-center">
-          <h2 className="text-3xl font-semibold mb-8">Trending Outfits</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {trendingOutfits.map((outfit) => (
-              <div key={outfit.id} className="bg-white shadow-md rounded-2xl p-6 hover:scale-105 transition-transform">
-                <div className="h-48 bg-gray-200 rounded-xl flex items-center justify-center mb-4">
-                  <span className="text-gray-500">{outfit.img ? <img src={outfit.img} alt={outfit.title} /> : "Image"}</span>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {trendingCategories.map((category, index) => (
+              <div key={index} className="group cursor-pointer">
+                <div className={`bg-gradient-to-br ${category.color} rounded-2xl aspect-square relative overflow-hidden`}>
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <h3 className="text-xl font-bold mb-2">{category.name}</h3>
+                    <p className="text-white/80">{category.count}</p>
+                  </div>
                 </div>
-                <p className="font-semibold">{outfit.title}</p>
-                <p className="text-sm text-gray-600">UGX {outfit.price.toLocaleString()}/day</p>
-                <Link
-                  to={`/item/${outfit.id}`}
-                  className="mt-3 inline-block bg-emerald-600 text-white px-4 py-2 rounded-xl hover:bg-emerald-700 transition-colors"
-                >
-                  Rent / Buy
-                </Link>
               </div>
             ))}
           </div>
-          <Link
-            to="/browse"
-            className="mt-6 inline-block bg-white text-emerald-600 border border-emerald-600 px-6 py-3 rounded-2xl font-medium hover:bg-emerald-50 transition-colors"
-          >
-            See All Outfits
-          </Link>
-        </section>
+        </div>
+      </section>
 
-        {/* Trust & Safety */}
-        <section className="text-center bg-gray-100 py-12 rounded-2xl">
-          <h2 className="text-3xl font-semibold mb-6">Trust & Safety</h2>
-          <p className="text-lg max-w-2xl mx-auto text-gray-600">
-            Every transaction is backed by ID verification, security deposits, and escrow protection. Rent and lend with confidence.
-          </p>
-        </section>
+      {/* How It Works - Enhanced */}
+      <section id="how-it-works" className="py-20 bg-gradient-to-br from-background-100 to-background-200">
+        <div className="container mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-4xl font-heading font-bold mb-4 text-primary-700">
+              How StyleShare Works
+            </h2>
+          </div>
 
-        {/* Ratings & Reviews Preview */}
-        <section className="text-center">
-          <h2 className="text-3xl font-semibold mb-8">User Ratings & Reviews</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white shadow-md rounded-2xl p-6">
-                <p className="font-semibold mb-2">User {i}</p>
-                <p className="text-gray-600 text-sm">
-                  "Great service! The outfit was perfect and the booking process was smooth."
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <div className="flex space-x-6">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg">1</div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Create Your Profile</h3>
+                  <p className="text-text-secondary">Sign up and complete your ID verification to join our trusted community.</p>
+                </div>
+              </div>
+
+              <div className="flex space-x-6">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg">2</div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Browse or List Items</h3>
+                  <p className="text-text-secondary">Find perfect outfits for your events or start earning by listing items from your closet.</p>
+                </div>
+              </div>
+
+              <div className="flex space-x-6">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg">3</div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Book Securely</h3>
+                  <p className="text-text-secondary">Reserve your items with secure escrow payments and delivery coordination.</p>
+                </div>
+              </div>
+
+              <div className="flex space-x-6">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg">4</div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Enjoy & Review</h3>
+                  <p className="text-text-secondary">Wear with confidence and build your reputation through reviews.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-3xl p-8 shadow-2xl">
+              <div className="bg-background-200 rounded-2xl h-80 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="text-6xl mb-4">👗</div>
+                  <p className="text-text-muted">Interactive demo showcase</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Carousel */}
+      <section id="testimonials" className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-4xl font-heading font-bold mb-4 text-primary-700">
+              Loved by Our Community
+            </h2>
+            <p className="text-xl text-text-secondary">
+              Don't just take our word for it. Here's what our users are saying.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-3xl p-8 lg:p-12">
+              <div className="text-center">
+                <div className="text-accent text-4xl mb-4">"</div>
+                <p className="text-2xl lg:text-3xl text-primary-800 font-light leading-relaxed mb-8">
+                  {testimonials[activeTestimonial].content}
                 </p>
-                <div className="mt-2 text-amber-400">⭐⭐⭐⭐⭐</div>
+                <div className="flex justify-center space-x-1 mb-4">
+                  {[...Array(testimonials[activeTestimonial].rating)].map((_, i) => (
+                    <span key={i} className="text-accent text-xl">⭐</span>
+                  ))}
+                </div>
+                <div>
+                  <div className="font-bold text-lg text-primary-700">{testimonials[activeTestimonial].name}</div>
+                  <div className="text-text-secondary">{testimonials[activeTestimonial].role}</div>
+                </div>
               </div>
-            ))}
-          </div>
-        </section>
 
-        {/* Join Community CTA */}
-        <section className="text-center py-12 bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl">
-          <h2 className="text-3xl font-semibold mb-6">Join the Zuula Community</h2>
-          <p className="text-lg mb-8 max-w-2xl mx-auto">
-            Turn closets into income. Make fashion sustainable. Find your next look today.
-          </p>
-          <div className="flex justify-center gap-4 flex-wrap">
-            <Link
-              to="/signup"
-              className="bg-emerald-600 text-white px-6 py-3 rounded-2xl font-medium hover:bg-emerald-700 transition-colors"
-            >
-              Join Now
-            </Link>
-            <Link
-              to="/upload"
-              className="bg-white text-emerald-600 border border-emerald-600 px-6 py-3 rounded-2xl font-medium hover:bg-emerald-50 transition-colors"
-            >
-              Upload Outfit
-            </Link>
+              <div className="flex justify-center space-x-3 mt-8">
+                {testimonials.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveTestimonial(index)}
+                    className={`w-3 h-3 rounded-full transition-all ${
+                      index === activeTestimonial ? 'bg-primary' : 'bg-primary-300'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-primary-600 to-primary-700 text-white">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-4xl font-heading font-bold mb-6">
+            Ready to Join the Fashion Revolution?
+          </h2>
+          <p className="text-xl mb-8 text-primary-100 max-w-2xl mx-auto">
+            Sign up today and get UGX 10,000 off your first rental. Start your sustainable fashion journey now.
+          </p>
+          
+          <div className="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
+            <input 
+              type="email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email address" 
+              className="flex-1 px-6 py-4 rounded-xl text-text-primary border-0 focus:ring-2 focus:ring-accent"
+            />
+            <button className="bg-accent text-primary-900 px-8 py-4 rounded-xl font-bold hover:bg-accent-600 transition-all whitespace-nowrap">
+              Get Started Free
+            </button>
+          </div>
+          
+          <p className="text-sm text-primary-200 mt-4">
+            No credit card required. Join 12,500+ fashion lovers in Uganda.
+          </p>
+        </div>
+      </section>
+
+      {/* Trust Badges */}
+      <div className="py-12 bg-background-100 border-t border-background-200">
+        <div className="container mx-auto px-6">
+          <div className="text-center text-text-secondary mb-6">Trusted and secured by</div>
+          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
+            <div className="text-2xl font-bold">🔒 SSL Secure</div>
+            <div className="text-2xl font-bold">⭐ 4.9/5 Rating</div>
+            <div className="text-2xl font-bold">👑 Premium Partners</div>
+            <div className="text-2xl font-bold">💳 Secure Payments</div>
+          </div>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default ProfessionalFashionHomepage;

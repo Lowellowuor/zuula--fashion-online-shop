@@ -1,9 +1,9 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Lato", "Open Sans", system-ui, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: rgba(0, 0, 0, 0.87);
-  background-color: #FAFAFA;
+  color: #333333; /* charcoal */
+  background-color: #F9F7F1; /* off-white */
 }
 
 #root {
@@ -13,9 +13,11 @@
   text-align: center;
 }
 
-/* Navbar Styles - FIXED */
+/* Navbar Styles - Premium Glass Effect */
 .navbar {
-  background-color: white;
+  background: rgba(249, 247, 241, 0.8); /* Elegant off-white glass */
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   display: flex;
@@ -26,14 +28,15 @@
   top: 0;
   left: 0;
   z-index: 50;
-  height: 64px; /* Added fixed height */
-  box-sizing: border-box; /* Ensure padding is included in height */
+  height: 64px;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 .nav-logo {
+  font-family: Georgia, serif;
   font-weight: 700;
-  font-size: 1.25rem;
-  color: #059669;
+  font-size: 1.5rem;
+  color: #046C4E; /* emerald */
   text-decoration: none;
 }
 
@@ -45,23 +48,24 @@
 .nav-link {
   position: relative;
   padding: 0.5rem 0;
-  color: #374151;
+  color: #333333; /* charcoal */
+  font-family: "Lato", sans-serif;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .nav-link:hover {
-  color: #059669;
+  color: #D4AF37; /* gold accent */
 }
 
 .nav-link::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   width: 0;
   height: 2px;
-  background-color: #059669;
+  background-color: #046C4E; /* emerald underline */
   transition: width 0.3s ease;
 }
 
@@ -71,26 +75,28 @@
 }
 
 .nav-link.active {
-  color: #059669;
+  color: #046C4E;
   font-weight: 600;
 }
 
 .mobile-menu-button {
   display: none;
-  color: #059669;
+  color: #046C4E;
   background: none;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
 }
 
-/* FIXED Mobile menu positioning */
+/* Mobile menu */
 .mobile-menu {
   position: fixed;
-  top: 64px; /* Changed from 100% to match navbar height */
+  top: 64px;
   left: 0;
   width: 100%;
-  background-color: white;
+  background: rgba(249, 247, 241, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   display: flex;
@@ -100,7 +106,7 @@
   opacity: 0;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   pointer-events: none;
-  z-index: 49; /* Added z-index */
+  z-index: 49;
 }
 
 .mobile-menu.open {
@@ -111,29 +117,29 @@
 
 .mobile-nav-link {
   padding: 0.75rem;
-  color: #374151;
+  color: #333333;
   text-decoration: none;
   border-radius: 0.375rem;
   transition: all 0.3s ease;
 }
 
 .mobile-nav-link:hover {
-  color: #059669;
+  color: #D4AF37;
   background-color: #F3F4F6;
 }
 
 .mobile-nav-link.active {
-  color: #059669;
-  background-color: #D1FAE5;
+  color: #046C4E;
+  background-color: #E6F4EC; /* subtle emerald tint */
   font-weight: 600;
 }
 
-/* Main content area - FIXED */
+/* Main content */
 .main-content {
-  margin-top: 6rem; /* Increased margin */
+  margin-top: 6rem;
   padding: 1.5rem;
   flex: 1;
-  min-height: calc(100vh - 10rem); /* Ensure content takes full height */
+  min-height: calc(100vh - 10rem);
 }
 
 /* Footer */
@@ -142,10 +148,12 @@
   text-align: center;
   padding: 1rem;
   font-size: 0.875rem;
-  margin-top: auto; /* Push footer to bottom */
+  font-family: "Lato", sans-serif;
+  color: #4A4A4A;
+  margin-top: auto;
 }
 
-/* Logo animation */
+/* Logo hover */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -153,61 +161,49 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #059669aa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .logo.spin {
-    animation: logo-spin infinite 20s linear;
-  }
+  filter: drop-shadow(0 0 2em #046C4Eaa); /* emerald glow */
 }
 
 /* Card styles */
 .card {
   padding: 2em;
-  background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.08);
+  font-family: "Lato", sans-serif;
 }
 
-.read-the-docs {
-  color: #888;
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: Georgia, serif;
+  color: #046C4E; /* emerald */
+  margin-bottom: 0.75rem;
 }
 
-/* Responsive design */
+p {
+  font-family: "Lato", "Open Sans", sans-serif;
+  color: #4A4A4A;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   #root {
     padding: 1rem;
   }
-  
   .nav-links {
     display: none;
   }
-  
   .mobile-menu-button {
     display: block;
   }
-  
   .navbar {
     padding: 0.75rem 1rem;
   }
-  
-  /* Adjust mobile menu for smaller screens */
   .mobile-menu {
-    top: 56px; /* Adjusted for smaller navbar height */
+    top: 56px;
   }
-  
   .main-content {
-    margin-top: 5rem; /* Reduced margin for mobile */
+    margin-top: 5rem;
   }
 }
 
@@ -217,12 +213,11 @@
   }
 }
 
-/* Ensure proper box sizing */
+/* Global box sizing */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-/* Body styles to prevent scrolling issues */
 body {
   margin: 0;
   padding: 0;
