@@ -22,7 +22,11 @@ import MessagesPage from "./pages/MessagesPage";
 import AboutPage from "./pages/AboutPage";
 import CareersPage from "./pages/CareersPage";
 import ReturnsAndRefunds from "./pages/ReturnAndRefundsPage";
+import FAQsPage from "./pages/FAQsPage";
+import ContactUsPage from "./pages/ContactUsPage";
+import ShippingInfoPge from "./pages/ShippingInfoPage"; 
 
+<FAQsPage></FAQsPage>
 
 // Layout
 import Header from "./components/layout/Header";
@@ -60,6 +64,9 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/careers" element={<CareersPage />} />
         <Route path="/returns" element={<ReturnsAndRefunds />} />
+        <Route path="/faqs" element={<FAQsPage />} />
+        <Route path="/contact" element={<ContactUsPage />} />
+        <Route path="/shipping-info" element={<ShippingInfoPge />} />
         
 
         {/* Auth */}

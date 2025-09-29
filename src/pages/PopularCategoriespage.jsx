@@ -30,14 +30,14 @@ export default function PopularCategoriesPage() {
 
   // Categories with images
   const categories = [
-    { name: "Wedding", count: 28, image: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
-    { name: "Party", count: 42, image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
-    { name: "Graduation", count: 15, image: "https://images.unsplash.com/photo-1606760227093-89928ed6078?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
-    { name: "Cultural", count: 23, image: "https://images.unsplash.com/photo-1581252584894-2f5be56f3878?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
-    { name: "Formal", count: 35, image: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
-    { name: "Casual", count: 56, image: "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
-    { name: "Traditional", count: 31, image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
-    { name: "Evening", count: 19, image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" }
+    { name: "Wedding", count: 28, image: "../assets/download(5).jpg" },
+    { name: "Party", count: 42, image: "../assets/download(5).jpg" },
+    { name: "Graduation", count: 15, image: "../assetts/download(5).jpg" },
+    { name: "Cultural", count: 23, image: "../assets/download(5).jpg" },
+    { name: "Formal", count: 35, image: "../assets/download(5).jpg" },
+    { name: "Casual", count: 56, image: "../assets/download(5).jpg" },
+    { name: "Traditional", count: 31, image: "../assets/download(5).jpg" },
+    { name: "Evening", count: 19, image: "../assets/download(5).jpg" }
   ];
 
   // Outfits data

@@ -20,7 +20,7 @@ function ItemDetailPage() {
       seller: "Sarah K.",
       verified: true,
       location: "Kampala",
-      images: ["https://images.unsplash.com/photo-1519657337289-077653f724ed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"],
+      images: ["../assets/download(4).jpg"],
       description: "A beautiful white wedding gown with intricate lace detailing, perfect for special occasions. Size M, available for 3-day rentals. Professionally cleaned and maintained.",
       features: ["Lace detailing", "Train included", "Professional cleaning", "Size adjustments available"],
       reviews: [
@@ -40,7 +40,7 @@ function ItemDetailPage() {
       seller: "Grace M.",
       verified: false,
       location: "Entebbe",
-      images: ["https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"],
+      images: ["../assets/download(1).jpg"],
       description: "Trendy red party dress, size S. Comfortable and elegant for evening events with a flattering silhouette.",
       features: ["Evening wear", "Comfortable fit", "Dry clean only"],
       reviews: [],

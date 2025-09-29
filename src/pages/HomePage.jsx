@@ -71,21 +71,51 @@ const ProfessionalFashionHomepage = () => {
   ];
 
   const trendingCategories = [
-    { name: "Wedding Guest", count: "1.2k+ outfits", color: "from-pink-500 to-rose-500" },
-    { name: "Traditional Gomesi", count: "800+ outfits", color: "from-purple-500 to-indigo-500" },
-    { name: "Cocktail Party", count: "950+ outfits", color: "from-blue-500 to-cyan-500" },
-    { name: "Graduation Gowns", count: "600+ outfits", color: "from-green-500 to-emerald-500" }
+    { 
+      name: "Wedding Guest", 
+      count: "1.2k+ outfits", 
+      color: "from-pink-500 to-rose-500",
+      image: "../assets/download(1).jpg" // Replace with your image path
+    },
+    { 
+      name: "Traditional Gomesi", 
+      count: "800+ outfits", 
+      color: "from-purple-500 to-indigo-500",
+      image: "../assets/download(2).jpg" // Replace with your image path
+    },
+    { 
+      name: "Cocktail Party", 
+      count: "950+ outfits", 
+      color: "from-blue-500 to-cyan-500",
+      image: "../assets/download(3).jpg" // Replace with your image path
+    },
+    { 
+      name: "Graduation Gowns", 
+      count: "600+ outfits", 
+      color: "from-green-500 to-emerald-500",
+      image: "../assets/download(4).jpg",// Replace with your image path
+    }
   ];
+
+  // Hero background image - replace with your actual image path
+  const heroBackgroundImage = "../assets/download(4).jpg";
 
   return (
     <div className="min-h-screen bg-background">
       
-      {/* Hero Section with Search */}
-      <section className="relative bg-gradient-to-br from-primary-700 via-primary-600 to-primary-800 text-white py-20 lg:py-28">
-        <div className="absolute inset-0 bg-black/10"></div>
+      {/* Hero Section with Background Image */}
+      <section 
+        className="relative bg-gradient-to-br from-primary-700/90 via-primary-600/90 to-primary-800/90 text-white py-20 lg:py-28"
+        style={{
+          backgroundImage: `linear-gradient(to bottom right, rgba(4, 108, 78, 0.9), rgba(3, 92, 67, 0.9), rgba(1, 60, 43, 0.9)), url(${heroBackgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundBlendMode: 'overlay'
+        }}
+      >
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center space-x-2 bg-white/10 rounded-full px-4 py-2 mb-6">
+            <div className="inline-flex items-center space-x-2 bg-white/10 rounded-full px-4 py-2 mb-6 backdrop-blur-sm">
               <span className="text-accent">✨</span>
               <span className="text-sm">Trusted by {stats.users.toLocaleString()}+ Ugandan fashion lovers</span>
             </div>
@@ -136,8 +166,8 @@ const ProfessionalFashionHomepage = () => {
           </div>
         </div>
         
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
+        {/* Background Pattern Overlay */}
+        <div className="absolute inset-0 opacity-20">
           <div className="absolute top-10 right-10 w-72 h-72 bg-accent rounded-full blur-3xl"></div>
           <div className="absolute bottom-10 left-10 w-96 h-96 bg-accent rounded-full blur-3xl"></div>
         </div>
@@ -187,7 +217,7 @@ const ProfessionalFashionHomepage = () => {
         </div>
       </section>
 
-      {/* Trending Categories */}
+      {/* Trending Categories with Images */}
       <section id="categories" className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -202,7 +232,16 @@ const ProfessionalFashionHomepage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {trendingCategories.map((category, index) => (
               <div key={index} className="group cursor-pointer">
-                <div className={`bg-gradient-to-br ${category.color} rounded-2xl aspect-square relative overflow-hidden`}>
+                <div 
+                  className={`bg-gradient-to-br ${category.color} rounded-2xl aspect-square relative overflow-hidden`}
+                  style={{
+                    backgroundImage: category.image 
+                      ? `linear-gradient(to bottom right, rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url(${category.image})`
+                      : undefined,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  }}
+                >
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all"></div>
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                     <h3 className="text-xl font-bold mb-2">{category.name}</h3>
@@ -268,10 +307,16 @@ const ProfessionalFashionHomepage = () => {
             </div>
 
             <div className="bg-white rounded-3xl p-8 shadow-2xl">
-              <div className="bg-background-200 rounded-2xl h-80 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-6xl mb-4">👗</div>
-                  <p className="text-text-muted">Interactive demo showcase</p>
+              <div 
+                className="bg-background-200 rounded-2xl h-80 flex items-center justify-center bg-cover bg-center"
+                style={{
+                  backgroundImage: 'url(/images/how-it-works-demo.jpg)' // Replace with your demo image
+                }}
+              >
+                {/* Fallback content if image doesn't load */}
+                <div className="text-center bg-white/80 backdrop-blur-sm rounded-xl p-6">
+                  <div className="text-4xl mb-4">👗</div>
+                  <p className="text-text-muted font-semibold">Interactive demo showcase</p>
                 </div>
               </div>
             </div>

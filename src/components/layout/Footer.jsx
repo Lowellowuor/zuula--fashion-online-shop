@@ -23,102 +23,83 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-background-50 border-t border-background-300 mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
-
-        {/* Company Info */}
+    <footer className="bg-background border-t border-background-300 mt-20">
+      {/* Main Footer */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-14 grid grid-cols-1 md:grid-cols-4 gap-12">
+        
+        {/* Brand / About */}
         <div className="space-y-4">
-          <h1 className="text-3xl font-bold text-primary-600 font-heading">Rent & Repeat</h1>
-          <p className="text-text-secondary italic leading-relaxed text-lg">
+          <h1 className="text-2xl font-heading font-bold text-primary-700">
+            Rent & Repeat
+          </h1>
+          <p className="text-text-secondary text-sm italic">
             Your go-to platform for renting and repeating your favorite outfits.
           </p>
-          <p className="text-text-muted leading-relaxed">
+          <p className="text-text-muted text-sm">
             Discover trendy outfits, rent or buy, and enjoy hassle-free fashion at your fingertips.
           </p>
         </div>
 
-        {/* Navigation Links */}
-        <div className="space-y-8">
-          <div>
-            <h3 className="font-semibold text-text-primary text-lg font-heading mb-4 pb-2 border-b border-accent-200">
-              Shop / Explore
-            </h3>
-            <ul className="space-y-3 text-text-secondary">
-              <li><Link to="/browse" className="hover:text-accent-600 transition-colors duration-300 block py-1">Browse Outfits</Link></li>
-              <li><Link to="/new-arrivals" className="hover:text-accent-600 transition-colors duration-300 block py-1">New Arrivals</Link></li>
-              <li><Link to="/popular-categories" className="hover:text-accent-600 transition-colors duration-300 block py-1">Popular Categories</Link></li>
-              <li><Link to="/wishlist" className="hover:text-accent-600 transition-colors duration-300 block py-1">Wishlist</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-text-primary text-lg font-heading mb-4 pb-2 border-b border-accent-200">
-              Customer Support
-            </h3>
-            <ul className="space-y-3 text-text-secondary">
-              <li><Link to="/faqs" className="hover:text-accent-600 transition-colors duration-300 block py-1">FAQs</Link></li>
-              <li><Link to="/returns" className="hover:text-accent-600 transition-colors duration-300 block py-1">Returns & Refunds</Link></li>
-              <li><Link to="/contact" className="hover:text-accent-600 transition-colors duration-300 block py-1">Contact Us</Link></li>
-              <li><Link to="/shipping-info" className="hover:text-accent-600 transition-colors duration-300 block py-1">Shipping Info</Link></li>
-            </ul>
-          </div>
+        {/* Shop Links */}
+        <div>
+          <h3 className="font-heading font-semibold text-primary-600 text-lg mb-4 border-b pb-2 border-accent">
+            Shop / Explore
+          </h3>
+          <ul className="space-y-2 text-text-secondary text-sm">
+            <li><Link to="/browse" className="hover:text-accent transition">Browse Outfits</Link></li>
+            <li><Link to="/new-arrivals" className="hover:text-accent transition">New Arrivals</Link></li>
+            <li><Link to="/popular-categories" className="hover:text-accent transition">Popular Categories</Link></li>
+            <li><Link to="/wishlist" className="hover:text-accent transition">Wishlist</Link></li>
+          </ul>
         </div>
 
-        {/* Company Links */}
+        {/* Support & Company */}
         <div className="space-y-8">
           <div>
-            <h3 className="font-semibold text-text-primary text-lg font-heading mb-4 pb-2 border-b border-accent-200">
-              Company
+            <h3 className="font-heading font-semibold text-primary-600 text-lg mb-4 border-b pb-2 border-accent">
+              Customer Support
             </h3>
-            <ul className="space-y-3 text-text-secondary">
-              <li><Link to="/about" className="hover:text-accent-600 transition-colors duration-300 block py-1">About Us</Link></li>
-              <li><Link to="/careers" className="hover:text-accent-600 transition-colors duration-300 block py-1">Careers</Link></li>
-              <li><Link to="/blog" className="hover:text-accent-600 transition-colors duration-300 block py-1">Blog</Link></li>
-              <li><Link to="/terms" className="hover:text-accent-600 transition-colors duration-300 block py-1">Terms & Conditions</Link></li>
-              <li><Link to="/privacy" className="hover:text-accent-600 transition-colors duration-300 block py-1">Privacy Policy</Link></li>
+            <ul className="space-y-2 text-text-secondary text-sm">
+              <li><Link to="/faqs" className="hover:text-accent transition">FAQs</Link></li>
+              <li><Link to="/returns" className="hover:text-accent transition">Returns & Refunds</Link></li>
+              <li><Link to="/contact" className="hover:text-accent transition">Contact Us</Link></li>
+              <li><Link to="/shipping-info" className="hover:text-accent transition">Shipping Info</Link></li>
             </ul>
           </div>
 
-          {/* Social Media */}
           <div>
-            <h4 className="font-semibold text-text-primary mb-4 font-heading">Follow Us</h4>
-            <div className="flex space-x-4">
-              <a href="#" className="bg-background-200 p-3 rounded-lg text-text-secondary hover:bg-accent hover:text-primary-900 transition-all duration-300 transform hover:-translate-y-1">
-                <FaInstagram size={18} />
-              </a>
-              <a href="#" className="bg-background-200 p-3 rounded-lg text-text-secondary hover:bg-accent hover:text-primary-900 transition-all duration-300 transform hover:-translate-y-1">
-                <FaFacebookF size={18} />
-              </a>
-              <a href="#" className="bg-background-200 p-3 rounded-lg text-text-secondary hover:bg-accent hover:text-primary-900 transition-all duration-300 transform hover:-translate-y-1">
-                <FaTiktok size={18} />
-              </a>
-              <a href="#" className="bg-background-200 p-3 rounded-lg text-text-secondary hover:bg-accent hover:text-primary-900 transition-all duration-300 transform hover:-translate-y-1">
-                <FaTwitter size={18} />
-              </a>
-              <a href="#" className="bg-background-200 p-3 rounded-lg text-text-secondary hover:bg-accent hover:text-primary-900 transition-all duration-300 transform hover:-translate-y-1">
-                <FaPinterestP size={18} />
-              </a>
-            </div>
+            <h3 className="font-heading font-semibold text-primary-600 text-lg mb-4 border-b pb-2 border-accent">
+              Company
+            </h3>
+            <ul className="space-y-2 text-text-secondary text-sm">
+              <li><Link to="/about" className="hover:text-accent transition">About Us</Link></li>
+              <li><Link to="/careers" className="hover:text-accent transition">Careers</Link></li>
+              <li><Link to="/blog" className="hover:text-accent transition">Blog</Link></li>
+              <li><Link to="/terms" className="hover:text-accent transition">Terms & Conditions</Link></li>
+              <li><Link to="/privacy" className="hover:text-accent transition">Privacy Policy</Link></li>
+            </ul>
           </div>
         </div>
 
         {/* Newsletter & Contact */}
         <div className="space-y-6">
-          <div className="premium-card bg-white border-t-4 border-accent p-6 rounded-xl">
-            <h3 className="font-semibold text-text-primary text-lg font-heading mb-3">Stay Updated</h3>
-            <p className="text-text-muted text-sm mb-4">Subscribe for latest arrivals and exclusive discounts!</p>
+          <div className="premium-card">
+            <h3 className="font-heading font-semibold text-primary-700 text-lg mb-3">Stay Updated</h3>
+            <p className="text-text-muted text-sm mb-4">
+              Subscribe for latest arrivals and exclusive discounts!
+            </p>
             <form onSubmit={handleSubscribe} className="space-y-3">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Your email address"
-                className="w-full px-4 py-3 border border-background-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent bg-background-50"
+                className="w-full px-4 py-3 border border-background-300 rounded-lg focus:ring-2 focus:ring-accent focus:outline-none text-sm bg-background-50"
                 required
               />
               <button
                 type="submit"
-                className="w-full px-4 py-3 bg-gradient-to-r from-accent to-brass text-primary-900 font-semibold rounded-lg hover:from-accent-600 hover:to-accent-800 hover:text-white transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl"
+                className="btn-gold w-full"
               >
                 Subscribe
               </button>
@@ -126,53 +107,56 @@ export default function Footer() {
           </div>
 
           {/* Contact Info */}
-          <div className="space-y-3 text-text-secondary">
-            <p className="flex items-center gap-3 text-sm">
-              <FaEnvelope className="text-accent flex-shrink-0" /> 
-              support@rentrepeat.com
+          <div className="space-y-3 text-sm text-text-secondary">
+            <p className="flex items-center gap-2">
+              <FaEnvelope className="text-accent" /> support@rentrepeat.com
             </p>
-            <p className="flex items-center gap-3 text-sm">
-              <FaMobileAlt className="text-accent flex-shrink-0" /> 
-              +256 700 000 000
+            <p className="flex items-center gap-2">
+              <FaMobileAlt className="text-accent" /> +256 700 000 000
             </p>
-            <p className="flex items-center gap-3 text-sm">
-              <FaMapMarkerAlt className="text-accent flex-shrink-0" /> 
-              Kampala, Uganda
+            <p className="flex items-center gap-2">
+              <FaMapMarkerAlt className="text-accent" /> Kampala, Uganda
             </p>
           </div>
 
-          {/* Payments & Security */}
+          {/* Payments */}
           <div className="pt-4 border-t border-background-200">
-            <p className="text-text-muted text-sm mb-3">We Accept</p>
-            <div className="flex gap-3 mb-2">
-              <div className="bg-background-100 p-2 rounded-lg">
-                <FaCcVisa className="text-charcoal" size={20} />
-              </div>
-              <div className="bg-background-100 p-2 rounded-lg">
-                <FaCcMastercard className="text-charcoal" size={20} />
-              </div>
-              <div className="bg-background-100 p-2 rounded-lg">
-                <FaMobileAlt className="text-charcoal" size={20} />
-              </div>
+            <p className="text-text-muted text-xs mb-2">We Accept</p>
+            <div className="flex gap-3">
+              <FaCcVisa size={28} className="text-charcoal" />
+              <FaCcMastercard size={28} className="text-charcoal" />
+              <FaMobileAlt size={24} className="text-charcoal" />
             </div>
-            <p className="text-text-muted text-xs flex items-center gap-1">
-              <span className="w-2 h-2 bg-accent rounded-full"></span>
-              100% Secure Payments
-            </p>
           </div>
         </div>
       </div>
 
-      {/* Legal / Copyright */}
-      <div className="bg-background-100 border-t border-background-200 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-text-muted text-sm">
-            © 2025 Rent & Repeat. All rights reserved. | 
-            <span className="text-accent mx-2">•</span>
-            Sustainable fashion for a better tomorrow
+      {/* Bottom Bar */}
+      <div className="bg-background-100 border-t border-background-200 py-5">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-text-muted text-sm text-center md:text-left">
+            © 2025 Rent & Repeat. All rights reserved. | <span className="text-accent">Sustainable fashion for a better tomorrow</span>
           </p>
+          <div className="flex space-x-3">
+            <a href="#" className="p-2 rounded-lg bg-white shadow hover:bg-accent hover:text-white transition">
+              <FaInstagram size={18} />
+            </a>
+            <a href="#" className="p-2 rounded-lg bg-white shadow hover:bg-accent hover:text-white transition">
+              <FaFacebookF size={18} />
+            </a>
+            <a href="#" className="p-2 rounded-lg bg-white shadow hover:bg-accent hover:text-white transition">
+              <FaTiktok size={18} />
+            </a>
+            <a href="#" className="p-2 rounded-lg bg-white shadow hover:bg-accent hover:text-white transition">
+              <FaTwitter size={18} />
+            </a>
+            <a href="#" className="p-2 rounded-lg bg-white shadow hover:bg-accent hover:text-white transition">
+              <FaPinterestP size={18} />
+            </a>
+          </div>
         </div>
       </div>
     </footer>
   );
 }
+// 
