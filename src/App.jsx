@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Pages
@@ -33,13 +34,29 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 
 function App() {
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      const header = document.querySelector('header');
+      if (header) {
+        setHeaderHeight(header.offsetHeight);
+      }
+    };
+
+    updateHeaderHeight();
+    window.addEventListener('resize', updateHeaderHeight);
+
+    return () => window.removeEventListener('resize', updateHeaderHeight);
+  }, []);
+
   return (
     <Router>
-      {/* Show header on all pages */}
-      <Header />
+      <div className="min-h-screen flex flex-col">
+        <Header />
 
-      {/* Main content */}
-      <Routes>
+        <main className="flex-1" style={{ paddingTop: `${headerHeight}px` }}>
+          <Routes>
         {/* Landing / Home */}
         <Route path="/" element={<HomePage />} />
 
@@ -72,10 +89,11 @@ function App() {
         {/* Auth */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-      </Routes>
+          </Routes>
+        </main>
 
-      {/* Footer visible on all pages */}
-      <Footer />
+        <Footer />
+      </div>
     </Router>
   );
 }
