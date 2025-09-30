@@ -9,7 +9,7 @@ import ItemDetailPage from "./pages/ItemDetailPage";
 import DashboardPage from "./pages/DashboardPage";
 import UploadItemPage from "./pages/UploadItemPage";
 import ProfilePage from "./pages/ProfilePage";
-import ItemPage from "./pages/ItemPage"; 
+import EditListingPage from "./pages/EditListingPage";
 import BookingPage from "./pages/BookingPage";
 import PaymentPage from "./pages/PaymentPage";
 import RentPage from "./pages/RentPage";
@@ -25,8 +25,9 @@ import ReturnsAndRefunds from "./pages/ReturnAndRefundsPage";
 import FAQsPage from "./pages/FAQsPage";
 import ContactUsPage from "./pages/ContactUsPage";
 import ShippingInfoPge from "./pages/ShippingInfoPage"; 
-
-<FAQsPage></FAQsPage>
+import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import BuyPage from "./pages/BuyPage";
 
 // Layout
 import Header from "./components/layout/Header";
@@ -46,7 +47,7 @@ function App() {
         {/* Browse & Items */}
         <Route path="/browse" element={<BrowsePage />} />
         <Route path="/item/:id" element={<ItemDetailPage />} />
-        <Route path="/itempage/:id" element={<ItemPage />} />
+        
         <Route path="/wishlist" element={<WishlistPage />} />
 
         {/* Dashboard + User */}
@@ -67,7 +68,14 @@ function App() {
         <Route path="/faqs" element={<FAQsPage />} />
         <Route path="/contact" element={<ContactUsPage />} />
         <Route path="/shipping-info" element={<ShippingInfoPge />} />
+       <Route path="/privacy" element={<PrivacyPolicyPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/buy/:id" element={<BuyPage />} />
+        <Route path="/edit-listing/:id" element={<EditListingPage />} />
         
+        {/* Terms and Conditions - Added both paths for flexibility */}
+        <Route path="/terms" element={<TermsAndConditionsPage />} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
 
         {/* Auth */}
         <Route path="/login" element={<LoginPage />} />

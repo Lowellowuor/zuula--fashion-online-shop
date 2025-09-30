@@ -75,30 +75,30 @@ const ProfessionalFashionHomepage = () => {
       name: "Wedding Guest", 
       count: "1.2k+ outfits", 
       color: "from-pink-500 to-rose-500",
-      image: "../assets/download(1).jpg" // Replace with your image path
+      image: "../assets/download1.jpg" // Replace with your image path
     },
     { 
       name: "Traditional Gomesi", 
       count: "800+ outfits", 
       color: "from-purple-500 to-indigo-500",
-      image: "../assets/download(2).jpg" // Replace with your image path
+      image: "../assets/download4.jpg" // Replace with your image path
     },
     { 
       name: "Cocktail Party", 
       count: "950+ outfits", 
       color: "from-blue-500 to-cyan-500",
-      image: "../assets/download(3).jpg" // Replace with your image path
+      image: "../assets/bosslady.jpg" // Replace with your image path
     },
     { 
       name: "Graduation Gowns", 
       count: "600+ outfits", 
       color: "from-green-500 to-emerald-500",
-      image: "../assets/download(4).jpg",// Replace with your image path
+      image: "../assets/GraduationGown.jpg",// Replace with your image path
     }
   ];
 
   // Hero background image - replace with your actual image path
-  const heroBackgroundImage = "../assets/download(4).jpg";
+  const heroBackgroundImage = "../assets/";
 
   return (
     <div className="min-h-screen bg-background">

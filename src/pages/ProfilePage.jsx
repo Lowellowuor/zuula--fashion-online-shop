@@ -1,5 +1,6 @@
 // src/pages/ProfilePage.jsx
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaCheckCircle,
   FaEdit,
@@ -12,10 +13,18 @@ import {
   FaShoppingBag,
   FaCalendarAlt,
   FaMoneyBillWave,
-  FaShieldAlt
+  FaShieldAlt,
+  FaShare,
+  FaLink,
+  FaWhatsapp,
+  FaFacebook,
+  FaTwitter,
+  FaCopy,
+  FaTimes
 } from "react-icons/fa";
 
 export default function ProfilePage() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("closet");
   const [user, setUser] = useState({
     name: "Susan Kamya",
@@ -31,13 +40,138 @@ export default function ProfilePage() {
     location: "Kampala, Uganda"
   });
 
+  // Share modal state
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [currentShareItem, setCurrentShareItem] = useState(null);
+  const [copySuccess, setCopySuccess] = useState(false);
+
   const listings = [
-    { id: 1, title: "Designer Wedding Gown", price: 50000, img: "https://images.unsplash.com/photo-1596466500176-aff9f0b2a4a5?w=300&h=400&fit=crop", likes: 24, saves: 12, tags: ["Wedding", "Luxury", "White"] },
-    { id: 2, title: "Elegant Party Dress", price: 30000, img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=400&fit=crop", likes: 18, saves: 8, tags: ["Party", "Cocktail", "Red"] },
-    { id: 3, title: "Graduation Outfit", price: 40000, img: "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=300&h=400&fit=crop", likes: 32, saves: 15, tags: ["Graduation", "Formal", "Blue"] },
-    { id: 4, title: "Traditional Gomesi", price: 45000, img: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=300&h=400&fit=crop", likes: 41, saves: 22, tags: ["Traditional", "Cultural", "Multi-color"] },
-    { id: 5, title: "Evening Gown", price: 35000, img: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=300&h=400&fit=crop", likes: 27, saves: 14, tags: ["Evening", "Formal", "Black"] },
-    { id: 6, title: "Cocktail Dress", price: 25000, img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=300&h=400&fit=crop", likes: 19, saves: 9, tags: ["Cocktail", "Party", "Green"] },
+    { 
+      id: 1, 
+      title: "Designer Wedding Gown", 
+      price: 50000, 
+      deposit: 15000,
+      buyPrice: 250000,
+      rent: true,
+      buy: true,
+      img: "https://images.unsplash.com/photo-1596466500176-aff9f0b2a4a5?w=300&h=400&fit=crop", 
+      likes: 24, 
+      saves: 12, 
+      tags: ["Wedding", "Luxury", "White"], 
+      description: "Beautiful designer wedding gown perfect for your special day.",
+      category: "Wedding",
+      size: "M",
+      color: "White",
+      condition: "Excellent",
+      location: "Kampala",
+      available: true,
+      verified: true
+    },
+    { 
+      id: 2, 
+      title: "Elegant Party Dress", 
+      price: 30000, 
+      deposit: 10000,
+      buyPrice: 120000,
+      rent: true,
+      buy: true,
+      img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=400&fit=crop", 
+      likes: 18, 
+      saves: 8, 
+      tags: ["Party", "Cocktail", "Red"], 
+      description: "Stunning red cocktail dress for parties and special events.",
+      category: "Party",
+      size: "S",
+      color: "Red",
+      condition: "Excellent",
+      location: "Kampala",
+      available: true,
+      verified: true
+    },
+    { 
+      id: 3, 
+      title: "Graduation Outfit", 
+      price: 40000, 
+      deposit: 12000,
+      buyPrice: 180000,
+      rent: true,
+      buy: true,
+      img: "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=300&h=400&fit=crop", 
+      likes: 32, 
+      saves: 15, 
+      tags: ["Graduation", "Formal", "Blue"], 
+      description: "Elegant blue outfit perfect for graduation ceremonies.",
+      category: "Graduation",
+      size: "L",
+      color: "Blue",
+      condition: "Very Good",
+      location: "Kampala",
+      available: true,
+      verified: true
+    },
+    { 
+      id: 4, 
+      title: "Traditional Gomesi", 
+      price: 45000, 
+      deposit: 15000,
+      buyPrice: 200000,
+      rent: true,
+      buy: true,
+      img: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=300&h=400&fit=crop", 
+      likes: 41, 
+      saves: 22, 
+      tags: ["Traditional", "Cultural", "Multi-color"], 
+      description: "Authentic Ugandan Gomesi for cultural events and ceremonies.",
+      category: "Cultural",
+      size: "M",
+      color: "Multi-color",
+      condition: "Good",
+      location: "Kampala",
+      available: true,
+      verified: true
+    },
+    { 
+      id: 5, 
+      title: "Evening Gown", 
+      price: 35000, 
+      deposit: 10000,
+      buyPrice: 150000,
+      rent: true,
+      buy: true,
+      img: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=300&h=400&fit=crop", 
+      likes: 27, 
+      saves: 14, 
+      tags: ["Evening", "Formal", "Black"], 
+      description: "Classic black evening gown for formal events.",
+      category: "Formal",
+      size: "M",
+      color: "Black",
+      condition: "Excellent",
+      location: "Kampala",
+      available: true,
+      verified: true
+    },
+    { 
+      id: 6, 
+      title: "Cocktail Dress", 
+      price: 25000, 
+      deposit: 8000,
+      buyPrice: 100000,
+      rent: true,
+      buy: true,
+      img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=300&h=400&fit=crop", 
+      likes: 19, 
+      saves: 9, 
+      tags: ["Cocktail", "Party", "Green"], 
+      description: "Beautiful green cocktail dress for parties and gatherings.",
+      category: "Party",
+      size: "S",
+      color: "Green",
+      condition: "Good",
+      location: "Kampala",
+      available: true,
+      verified: true
+    },
   ];
 
   const transactions = [
@@ -58,6 +192,54 @@ export default function ProfilePage() {
     { label: "Total Earnings", value: "UGX 850,000" },
     { label: "Response Rate", value: "98%" },
   ];
+
+  // Share functions
+  const handleShare = (item) => {
+    setCurrentShareItem(item);
+    setShowShareModal(true);
+    setCopySuccess(false);
+  };
+
+  const closeShareModal = () => {
+    setShowShareModal(false);
+    setCurrentShareItem(null);
+    setCopySuccess(false);
+  };
+
+  const copyToClipboard = () => {
+    const shareUrl = `${window.location.origin}/item/${currentShareItem?.id}`;
+    navigator.clipboard.writeText(shareUrl);
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 2000);
+  };
+
+  const shareOnPlatform = (platform) => {
+    const shareUrl = `${window.location.origin}/item/${currentShareItem?.id}`;
+    const text = `Check out this amazing outfit: ${currentShareItem?.title}`;
+    
+    const urls = {
+      whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + shareUrl)}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
+      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`
+    };
+
+    window.open(urls[platform], '_blank', 'width=600,height=400');
+  };
+
+  // Edit function - navigate to edit page
+  const handleEdit = (item) => {
+    navigate(`/edit-listing/${item.id}`, { state: { item } });
+  };
+
+  // View function - navigate to item detail page
+  const handleView = (item) => {
+    navigate(`/item/${item.id}`, { state: { item } });
+  };
+
+  // Upload new item function
+  const handleUploadNewItem = () => {
+    navigate('/upload');
+  };
 
   return (
     <div className="bg-ivory min-h-screen">
@@ -211,7 +393,10 @@ export default function ProfilePage() {
               <>
                 <div className="flex justify-between items-center mb-6">
                   <h3 className="text-2xl font-semibold text-forest">My Listings</h3>
-                  <button className="btn-primary flex items-center gap-2">
+                  <button 
+                    onClick={handleUploadNewItem}
+                    className="btn-primary flex items-center gap-2"
+                  >
                     <FaUpload /> Upload New Item
                   </button>
                 </div>
@@ -219,7 +404,12 @@ export default function ProfilePage() {
                 {listings.length === 0 ? (
                   <div className="text-center py-12 text-slate-grey">
                     <div className="mb-4">Your closet is empty</div>
-                    <button className="btn-primary">Upload Your First Item</button>
+                    <button 
+                      onClick={handleUploadNewItem}
+                      className="btn-primary"
+                    >
+                      Upload Your First Item
+                    </button>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -230,8 +420,13 @@ export default function ProfilePage() {
                           <div className="absolute top-3 right-3 bg-ivory rounded-full p-2 shadow-sm">
                             <FaHeart className="text-background-500 hover:text-gold cursor-pointer" />
                           </div>
-                          <div className="absolute bottom-3 left-3">
-                            <span className="bg-forest text-ivory text-xs px-2 py-1 rounded">UGX {item.price.toLocaleString()}/day</span>
+                          <div className="absolute bottom-3 left-3 flex gap-2">
+                            {item.rent && (
+                              <span className="bg-emerald text-white text-xs px-2 py-1 rounded">Rent</span>
+                            )}
+                            {item.buy && (
+                              <span className="bg-gold text-forest text-xs px-2 py-1 rounded">Buy</span>
+                            )}
                           </div>
                         </div>
                         <div className="p-4">
@@ -240,6 +435,18 @@ export default function ProfilePage() {
                             {item.tags.map((tag, index) => (
                               <span key={index} className="bg-background-100 text-forest text-xs px-2 py-1 rounded">{tag}</span>
                             ))}
+                          </div>
+                          <div className="space-y-1 mb-3">
+                            {item.rent && (
+                              <p className="font-bold text-emerald text-sm">
+                                Rent: UGX {item.price.toLocaleString()}/day
+                              </p>
+                            )}
+                            {item.buy && (
+                              <p className="font-bold text-gold text-sm">
+                                Buy: UGX {item.buyPrice.toLocaleString()}
+                              </p>
+                            )}
                           </div>
                           <div className="flex justify-between items-center text-sm text-slate-grey">
                             <div className="flex items-center gap-1">
@@ -250,8 +457,24 @@ export default function ProfilePage() {
                             </div>
                           </div>
                           <div className="flex gap-2 mt-3">
-                            <button className="flex-1 py-2 btn-primary text-sm">Edit</button>
-                            <button className="flex-1 py-2 border border-background-300 text-forest rounded-lg hover:bg-background-100 transition text-sm">View</button>
+                            <button 
+                              onClick={() => handleEdit(item)}
+                              className="flex-1 py-2 btn-primary text-sm flex items-center justify-center gap-2"
+                            >
+                              <FaEdit size={12} /> Edit
+                            </button>
+                            <button 
+                              onClick={() => handleView(item)}
+                              className="flex-1 py-2 border border-background-300 text-forest rounded-lg hover:bg-background-100 transition text-sm"
+                            >
+                              View
+                            </button>
+                            <button 
+                              onClick={() => handleShare(item)}
+                              className="px-3 py-2 border border-background-300 text-forest rounded-lg hover:bg-background-100 transition text-sm flex items-center gap-1"
+                            >
+                              <FaShare size={12} />
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -266,7 +489,12 @@ export default function ProfilePage() {
                 {transactions.length === 0 ? (
                   <div className="text-center py-12 text-slate-grey">
                     <div className="mb-4">No transactions yet</div>
-                    <button className="btn-primary">Browse Items</button>
+                    <button 
+                      onClick={() => navigate('/browse')}
+                      className="btn-primary"
+                    >
+                      Browse Items
+                    </button>
                   </div>
                 ) : (
                   <table className="w-full">
@@ -340,6 +568,93 @@ export default function ProfilePage() {
           </div>
         </div>
       </main>
+
+      {/* Share Modal */}
+      {showShareModal && currentShareItem && (
+        <div className="fixed inset-0 bg-charcoal bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-2xl font-bold text-forest font-heading">Share Outfit</h3>
+                <button onClick={closeShareModal} className="text-slate-grey hover:text-charcoal transition-colors">
+                  <FaTimes size={20} />
+                </button>
+              </div>
+              
+              <div className="flex gap-4 mb-6">
+                <div className="w-20 h-20 bg-background-300 rounded-xl overflow-hidden shadow-lg">
+                  <img src={currentShareItem.img} alt={currentShareItem.title} className="w-full h-full object-cover" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold text-lg text-forest font-heading mb-2">{currentShareItem.title}</h4>
+                  <div className="space-y-1">
+                    {currentShareItem.rent && (
+                      <p className="text-emerald font-bold text-lg font-body">
+                        Rent: UGX {currentShareItem.price.toLocaleString()}/day
+                      </p>
+                    )}
+                    {currentShareItem.buy && (
+                      <p className="text-gold font-bold text-lg font-body">
+                        Buy: UGX {currentShareItem.buyPrice.toLocaleString()}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="flex gap-3 justify-center">
+                  <button 
+                    onClick={() => shareOnPlatform('whatsapp')}
+                    className="flex flex-col items-center gap-2 p-4 rounded-xl bg-green-50 text-green-600 hover:bg-green-100 transition-all"
+                  >
+                    <FaWhatsapp size={24} />
+                    <span className="text-sm font-medium">WhatsApp</span>
+                  </button>
+                  
+                  <button 
+                    onClick={() => shareOnPlatform('facebook')}
+                    className="flex flex-col items-center gap-2 p-4 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all"
+                  >
+                    <FaFacebook size={24} />
+                    <span className="text-sm font-medium">Facebook</span>
+                  </button>
+                  
+                  <button 
+                    onClick={() => shareOnPlatform('twitter')}
+                    className="flex flex-col items-center gap-2 p-4 rounded-xl bg-blue-50 text-blue-400 hover:bg-blue-100 transition-all"
+                  >
+                    <FaTwitter size={24} />
+                    <span className="text-sm font-medium">Twitter</span>
+                  </button>
+                </div>
+                
+                <div className="border-t border-background-300 pt-4">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      readOnly
+                      value={`${window.location.origin}/item/${currentShareItem.id}`}
+                      className="flex-1 px-4 py-3 border-2 border-background-300 rounded-xl text-sm font-body"
+                    />
+                    <button
+                      onClick={copyToClipboard}
+                      className={`px-6 py-3 rounded-xl font-semibold transition-all flex items-center gap-2 ${
+                        copySuccess 
+                          ? 'bg-emerald text-white' 
+                          : 'bg-background-200 text-forest hover:bg-background-300'
+                      }`}
+                    >
+                      <FaCopy size={16} />
+                      {copySuccess ? 'Copied!' : 'Copy'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

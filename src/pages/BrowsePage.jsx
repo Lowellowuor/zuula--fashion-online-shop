@@ -1,19 +1,21 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { FaSearch, FaHeart, FaRegHeart, FaFilter, FaStar, FaTimes, FaChevronLeft, FaChevronRight, FaCalendarAlt, FaUser, FaTags, FaArrowRight } from "react-icons/fa";
+import { FaSearch, FaHeart, FaRegHeart, FaFilter, FaStar, FaTimes, FaChevronLeft, FaChevronRight, FaCalendarAlt, FaUser, FaTags, FaArrowRight, FaShoppingBag, FaMoneyBillWave } from "react-icons/fa";
 
 const sampleOutfits = [
   {
     id: 1,
-    title: "Elegant Red Gomesi",
+    title: "Elegant Gomesi",
     category: "Wedding",
     size: "M",
     color: "Red",
     price: 100000,
     deposit: 20000,
     rent: true,
-    image: "../assets/download(4).jpg",
+    buy: true,
+    buyPrice: 250000,
+    image: "https://images.unsplash.com/photo-1596466500176-aff9f0b2a4a5?w=400&h=500&fit=crop",
     seller: "Fashionista01",
     verified: true,
     location: "Kampala",
@@ -21,7 +23,7 @@ const sampleOutfits = [
     rating: 4.8,
     reviews: 24,
     available: true,
-    tags: ["#traditional", "#wedding", "#ugandaculture"],
+    tags: ["traditional", "wedding", "ugandaculture"],
     dateAdded: "Sept 20, 2025",
     description: "Beautiful traditional Gomesi perfect for wedding ceremonies and cultural events. Made with high-quality fabric and excellent craftsmanship."
   },
@@ -34,7 +36,9 @@ const sampleOutfits = [
     price: 50000,
     deposit: 10000,
     rent: true,
-    image: "../assets/download(5).jpg",
+    buy: false,
+    buyPrice: null,
+    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=500&fit=crop",
     seller: "Trendsetter",
     verified: false,
     location: "Entebbe",
@@ -42,11 +46,102 @@ const sampleOutfits = [
     rating: 4.2,
     reviews: 12,
     available: true,
-    tags: ["#party", "#floral", "#trending"],
+    tags: ["party", "floral", "trending"],
     dateAdded: "Sept 18, 2025",
     description: "Elegant floral dress perfect for parties and special occasions. Lightweight and comfortable with a flattering fit."
   },
-  // ... (keep the rest of your sampleOutfits array the same)
+  {
+    id: 3,
+    title: "Designer Evening Gown",
+    category: "Formal",
+    size: "L",
+    color: "Black",
+    price: 150000,
+    deposit: 30000,
+    rent: true,
+    buy: true,
+    buyPrice: 450000,
+    image: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=400&h=500&fit=crop",
+    seller: "LuxuryWear",
+    verified: true,
+    location: "Kampala",
+    condition: "Excellent",
+    rating: 4.9,
+    reviews: 36,
+    available: true,
+    tags: ["formal", "evening", "luxury"],
+    dateAdded: "Sept 15, 2025",
+    description: "Stunning designer evening gown for formal events and special occasions. Features elegant embroidery and premium fabric."
+  },
+  {
+    id: 4,
+    title: "Traditional Kanzu",
+    category: "Cultural",
+    size: "XL",
+    color: "White",
+    price: 80000,
+    deposit: 15000,
+    rent: true,
+    buy: true,
+    buyPrice: 180000,
+    image: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=400&h=500&fit=crop",
+    seller: "CulturalStyles",
+    verified: true,
+    location: "Jinja",
+    condition: "Good",
+    rating: 4.5,
+    reviews: 18,
+    available: true,
+    tags: ["traditional", "cultural", "uganda"],
+    dateAdded: "Sept 12, 2025",
+    description: "Authentic Ugandan Kanzu perfect for cultural ceremonies and traditional events. Made with comfortable cotton fabric."
+  },
+  {
+    id: 5,
+    title: "Vintage Leather Jacket",
+    category: "Casual",
+    size: "M",
+    color: "Brown",
+    price: null,
+    deposit: null,
+    rent: false,
+    buy: true,
+    buyPrice: 120000,
+    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=500&fit=crop",
+    seller: "VintageCollector",
+    verified: true,
+    location: "Kampala",
+    condition: "Very Good",
+    rating: 4.7,
+    reviews: 29,
+    available: true,
+    tags: ["vintage", "leather", "casual"],
+    dateAdded: "Sept 10, 2025",
+    description: "Authentic vintage leather jacket from the 80s. Well-maintained with classic styling that never goes out of fashion."
+  },
+  {
+    id: 6,
+    title: "Business Suit Set",
+    category: "Formal",
+    size: "L",
+    color: "Navy Blue",
+    price: 75000,
+    deposit: 20000,
+    rent: true,
+    buy: true,
+    buyPrice: 220000,
+    image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=500&fit=crop",
+    seller: "ProfessionalWear",
+    verified: true,
+    location: "Kampala",
+    condition: "Excellent",
+    rating: 4.6,
+    reviews: 42,
+    available: true,
+    tags: ["business", "formal", "professional"],
+    dateAdded: "Sept 8, 2025",
+    description: "Professional business suit set perfect for interviews, meetings, and corporate events. Premium quality fabric."
+  }
 ];
 
 export default function BrowsePage() {
@@ -56,8 +151,9 @@ export default function BrowsePage() {
     category: "",
     size: "",
     color: "",
-    priceRange: [0, 200000],
+    priceRange: [0, 500000],
     rentOnly: false,
+    buyOnly: false,
     condition: "",
     location: "",
     verifiedOnly: false
@@ -90,23 +186,40 @@ export default function BrowsePage() {
   };
 
   const filteredOutfits = sampleOutfits.filter((item) => {
-    return (
-      item.title.toLowerCase().includes(search.toLowerCase()) &&
-      (filters.category ? item.category === filters.category : true) &&
-      (filters.size ? item.size === filters.size : true) &&
-      (filters.color ? item.color === filters.color : true) &&
-      (filters.condition ? item.condition === filters.condition : true) &&
-      (filters.location ? item.location === filters.location : true) &&
-      (filters.rentOnly ? item.rent === true : true) &&
-      (filters.verifiedOnly ? item.verified === true : true) &&
-      item.price >= filters.priceRange[0] &&
-      item.price <= filters.priceRange[1]
-    );
+    const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase()) ||
+                         item.tags.some(tag => tag.toLowerCase().includes(search.toLowerCase()));
+    
+    const matchesCategory = filters.category ? item.category === filters.category : true;
+    const matchesSize = filters.size ? item.size === filters.size : true;
+    const matchesColor = filters.color ? item.color === filters.color : true;
+    const matchesCondition = filters.condition ? item.condition === filters.condition : true;
+    const matchesLocation = filters.location ? item.location === filters.location : true;
+    const matchesVerified = filters.verifiedOnly ? item.verified === true : true;
+    
+    // Handle rent/buy filters
+    const matchesRent = filters.rentOnly ? item.rent === true : true;
+    const matchesBuy = filters.buyOnly ? item.buy === true : true;
+    
+    // Price filter - use buyPrice for buy items, price for rent items
+    const itemPrice = actionType === "buy" && item.buyPrice ? item.buyPrice : item.price;
+    const matchesPrice = itemPrice >= filters.priceRange[0] && itemPrice <= filters.priceRange[1];
+
+    return matchesSearch && matchesCategory && matchesSize && matchesColor && 
+           matchesCondition && matchesLocation && matchesVerified && 
+           matchesRent && matchesBuy && matchesPrice;
   });
 
   const sortedOutfits = [...filteredOutfits].sort((a, b) => {
-    if (sortBy === "priceLowHigh") return a.price - b.price;
-    if (sortBy === "priceHighLow") return b.price - a.price;
+    if (sortBy === "priceLowHigh") {
+      const priceA = actionType === "buy" && a.buyPrice ? a.buyPrice : a.price;
+      const priceB = actionType === "buy" && b.buyPrice ? b.buyPrice : b.price;
+      return priceA - priceB;
+    }
+    if (sortBy === "priceHighLow") {
+      const priceA = actionType === "buy" && a.buyPrice ? a.buyPrice : a.price;
+      const priceB = actionType === "buy" && b.buyPrice ? b.buyPrice : b.price;
+      return priceB - priceA;
+    }
     if (sortBy === "rating") return b.rating - a.rating;
     return new Date(b.dateAdded) - new Date(a.dateAdded);
   });
@@ -116,8 +229,20 @@ export default function BrowsePage() {
   const currentItems = sortedOutfits.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(sortedOutfits.length / itemsPerPage);
 
-  const handleView = (id) => {
-    navigate(`/item/${id}`);
+  const handleView = (item) => {
+    navigate(`/item/${item.id}`, { state: { item } });
+  };
+
+  const handleRent = (item) => {
+    if (item.rent) {
+      navigate(`/rent/${item.id}`, { state: { item } });
+    }
+  };
+
+  const handleBuy = (item) => {
+    if (item.buy) {
+      navigate(`/buy/${item.id}`, { state: { item } });
+    }
   };
 
   const openModal = (item, type) => {
@@ -134,11 +259,11 @@ export default function BrowsePage() {
   };
 
   const handleConfirm = () => {
-    alert(
-      `${actionType === "rent" ? "Rental" : "Purchase"} confirmed for ${
-        selectedItem.title
-      }`
-    );
+    if (actionType === "rent") {
+      handleRent(selectedItem);
+    } else if (actionType === "buy") {
+      handleBuy(selectedItem);
+    }
     closeModal();
   };
 
@@ -155,8 +280,9 @@ export default function BrowsePage() {
       category: "",
       size: "",
       color: "",
-      priceRange: [0, 200000],
+      priceRange: [0, 500000],
       rentOnly: false,
+      buyOnly: false,
       condition: "",
       location: "",
       verifiedOnly: false
@@ -188,6 +314,33 @@ export default function BrowsePage() {
     </div>
   );
 
+  const getItemPrice = (item, type = "rent") => {
+    if (type === "buy" && item.buyPrice) {
+      return item.buyPrice;
+    }
+    return item.price;
+  };
+
+  const getPriceDisplay = (item) => {
+    if (item.rent && item.buy) {
+      return {
+        rent: `UGX ${item.price.toLocaleString()}/day`,
+        buy: `UGX ${item.buyPrice.toLocaleString()}`
+      };
+    } else if (item.rent) {
+      return {
+        rent: `UGX ${item.price.toLocaleString()}/day`,
+        buy: null
+      };
+    } else if (item.buy) {
+      return {
+        rent: null,
+        buy: `UGX ${item.buyPrice.toLocaleString()}`
+      };
+    }
+    return { rent: null, buy: null };
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <div className="px-4 md:px-20 pt-24 pb-8 space-y-8">
@@ -204,8 +357,18 @@ export default function BrowsePage() {
               Browse & <span className="text-emerald">Discover</span>
             </h1>
             <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto text-slate-grey font-body leading-relaxed">
-              Find the perfect outfit for any occasion from Uganda's fashion rental community
+              Find the perfect outfit for any occasion - Rent for events or Buy to own forever
             </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <div className="bg-white bg-opacity-90 px-4 py-2 rounded-full flex items-center gap-2">
+                <FaShoppingBag className="text-emerald" />
+                <span className="font-semibold text-charcoal">Rent for Events</span>
+              </div>
+              <div className="bg-white bg-opacity-90 px-4 py-2 rounded-full flex items-center gap-2">
+                <FaMoneyBillWave className="text-gold" />
+                <span className="font-semibold text-charcoal">Buy to Own</span>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -241,7 +404,7 @@ export default function BrowsePage() {
             <div className="relative flex-1 md:flex-none">
               <input
                 type="text"
-                placeholder="Search for outfits..."
+                placeholder="Search for outfits, tags, or categories..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full md:w-80 px-4 py-3 pl-12 border-2 border-background-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald focus:border-emerald font-body"
@@ -279,7 +442,7 @@ export default function BrowsePage() {
                 <input
                   type="range"
                   min="0"
-                  max="200000"
+                  max="500000"
                   step="10000"
                   value={filters.priceRange[1]}
                   onChange={(e) => handleFilterChange("priceRange", [filters.priceRange[0], parseInt(e.target.value)])}
@@ -300,6 +463,7 @@ export default function BrowsePage() {
                   <option value="Graduation">Graduation</option>
                   <option value="Cultural">Cultural</option>
                   <option value="Formal">Formal</option>
+                  <option value="Casual">Casual</option>
                 </select>
               </div>
               
@@ -312,6 +476,15 @@ export default function BrowsePage() {
                     className="rounded text-emerald focus:ring-emerald h-5 w-5"
                   />
                   <span className="text-charcoal">Rent Only</span>
+                </label>
+                <label className="flex items-center gap-3 font-body">
+                  <input
+                    type="checkbox"
+                    checked={filters.buyOnly}
+                    onChange={(e) => handleFilterChange("buyOnly", e.target.checked)}
+                    className="rounded text-emerald focus:ring-emerald h-5 w-5"
+                  />
+                  <span className="text-charcoal">Buy Only</span>
                 </label>
                 <label className="flex items-center gap-3 font-body">
                   <input
@@ -334,10 +507,10 @@ export default function BrowsePage() {
             {allTags.slice(0, 12).map((tag, idx) => (
               <button
                 key={idx}
-                onClick={() => setSearch(tag.replace('#', ''))}
+                onClick={() => setSearch(tag)}
                 className="text-sm bg-background-200 text-slate-grey px-4 py-2 rounded-full hover:bg-emerald hover:text-white transition-all duration-300 font-body"
               >
-                {tag}
+                #{tag}
               </button>
             ))}
           </div>
@@ -365,7 +538,7 @@ export default function BrowsePage() {
                 <input
                   type="range"
                   min="0"
-                  max="200000"
+                  max="500000"
                   step="10000"
                   value={filters.priceRange[1]}
                   onChange={(e) => handleFilterChange("priceRange", [filters.priceRange[0], parseInt(e.target.value)])}
@@ -386,6 +559,7 @@ export default function BrowsePage() {
                   <option value="Graduation">Graduation</option>
                   <option value="Cultural">Cultural</option>
                   <option value="Formal">Formal</option>
+                  <option value="Casual">Casual</option>
                 </select>
               </div>
               
@@ -418,6 +592,7 @@ export default function BrowsePage() {
                   <option value="Green">Green</option>
                   <option value="White">White</option>
                   <option value="Brown">Brown</option>
+                  <option value="Black">Black</option>
                 </select>
               </div>
               
@@ -430,6 +605,15 @@ export default function BrowsePage() {
                     className="rounded text-emerald focus:ring-emerald h-5 w-5"
                   />
                   <span className="text-charcoal">Rent Only</span>
+                </label>
+                <label className="flex items-center gap-3 font-body">
+                  <input
+                    type="checkbox"
+                    checked={filters.buyOnly}
+                    onChange={(e) => handleFilterChange("buyOnly", e.target.checked)}
+                    className="rounded text-emerald focus:ring-emerald h-5 w-5"
+                  />
+                  <span className="text-charcoal">Buy Only</span>
                 </label>
                 <label className="flex items-center gap-3 font-body">
                   <input
@@ -472,110 +656,139 @@ export default function BrowsePage() {
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {currentItems.length > 0 ? (
-                    currentItems.map((item) => (
-                      <div
-                        key={item.id}
-                        className="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-background-300"
-                      >
-                        <div className="relative">
-                          <div className="h-72 bg-background-300 overflow-hidden">
-                            <img
-                              src={item.image}
-                              alt={item.title}
-                              className="w-full h-full object-cover transition-transform hover:scale-110 duration-500"
-                            />
-                            {!item.available && (
-                              <div className="absolute inset-0 bg-charcoal bg-opacity-70 flex items-center justify-center">
-                                <span className="text-white font-bold bg-red-600 px-4 py-2 rounded-lg font-body">Not Available</span>
-                              </div>
-                            )}
-                          </div>
-                          <button 
-                            onClick={() => toggleWishlist(item.id)}
-                            className={`absolute top-4 right-4 p-3 rounded-full shadow-lg transition-all ${
-                              wishlist.includes(item.id) 
-                                ? 'bg-red-500 text-white' 
-                                : 'bg-white text-slate-grey hover:bg-emerald hover:text-white'
-                            }`}
-                          >
-                            {wishlist.includes(item.id) ? <FaHeart /> : <FaRegHeart />}
-                          </button>
-                          {item.verified && (
-                            <div className="absolute top-4 left-4 bg-emerald text-white text-xs px-3 py-1.5 rounded-full font-body font-semibold shadow-lg">
-                              Verified
+                    currentItems.map((item) => {
+                      const prices = getPriceDisplay(item);
+                      return (
+                        <div
+                          key={item.id}
+                          className="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-background-300"
+                        >
+                          <div className="relative">
+                            <div className="h-72 bg-background-300 overflow-hidden">
+                              <img
+                                src={item.image}
+                                alt={item.title}
+                                className="w-full h-full object-cover transition-transform hover:scale-110 duration-500"
+                              />
+                              {!item.available && (
+                                <div className="absolute inset-0 bg-charcoal bg-opacity-70 flex items-center justify-center">
+                                  <span className="text-white font-bold bg-red-600 px-4 py-2 rounded-lg font-body">Not Available</span>
+                                </div>
+                              )}
                             </div>
-                          )}
-                        </div>
-                        <div className="p-5 space-y-3">
-                          <h3 className="font-semibold text-xl text-charcoal font-heading">{item.title}</h3>
-                          <div className="flex items-center text-sm text-slate-grey font-body">
-                            <span>{item.category}</span>
-                            <span className="mx-2">•</span>
-                            <span>{item.location}</span>
-                          </div>
-                          <div className="flex items-center">
-                            <div className="flex text-accent">
-                              {[...Array(5)].map((_, i) => (
-                                <FaStar 
-                                  key={i} 
-                                  className={i < Math.floor(item.rating) ? 'text-accent' : 'text-background-400'} 
-                                />
-                              ))}
-                            </div>
-                            <span className="ml-2 text-sm text-slate-grey font-body">({item.reviews})</span>
-                          </div>
-                          <p className="font-bold text-emerald text-xl font-body">
-                            UGX {item.price.toLocaleString()} {item.rent && "/day"}
-                          </p>
-                          {item.rent && (
-                            <p className="text-slate-grey text-sm font-body">
-                              Deposit: UGX {item.deposit.toLocaleString()}
-                            </p>
-                          )}
-                          
-                          <div className="flex flex-wrap gap-2">
-                            {item.tags.slice(0, 3).map((tag, idx) => (
-                              <span key={idx} className="text-xs bg-background-200 text-slate-grey px-3 py-1.5 rounded-full font-body">
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                          
-                          <div className="flex gap-3 mt-4">
-                            <button
-                              onClick={() => handleView(item.id)}
-                              className="flex-1 bg-background-200 text-charcoal py-3 rounded-xl hover:bg-background-300 transition-all font-body font-semibold"
-                            >
-                              View Details
-                            </button>
-                            {item.rent && (
-                              <button
-                                onClick={() => openModal(item, "rent")}
-                                disabled={!item.available}
-                                className={`flex-1 py-3 rounded-xl text-sm font-body font-semibold transition-all ${
-                                  item.available 
-                                    ? 'bg-emerald text-white hover:bg-forest shadow-lg hover:shadow-xl' 
-                                    : 'bg-background-300 text-slate-grey cursor-not-allowed'
-                                }`}
-                              >
-                                Rent
-                              </button>
-                            )}
-                            <button
-                              onClick={() => openModal(item, "buy")}
-                              disabled={!item.available}
-                              className={`flex-1 py-3 rounded-xl text-sm font-body font-semibold transition-all ${
-                                item.available 
-                                  ? 'bg-accent text-charcoal hover:bg-accent-600 shadow-lg hover:shadow-xl' 
-                                  : 'bg-background-300 text-slate-grey cursor-not-allowed'
+                            <button 
+                              onClick={() => toggleWishlist(item.id)}
+                              className={`absolute top-4 right-4 p-3 rounded-full shadow-lg transition-all ${
+                                wishlist.includes(item.id) 
+                                  ? 'bg-red-500 text-white' 
+                                  : 'bg-white text-slate-grey hover:bg-emerald hover:text-white'
                               }`}
                             >
-                              Buy
+                              {wishlist.includes(item.id) ? <FaHeart /> : <FaRegHeart />}
                             </button>
+                            {item.verified && (
+                              <div className="absolute top-4 left-4 bg-emerald text-white text-xs px-3 py-1.5 rounded-full font-body font-semibold shadow-lg">
+                                Verified
+                              </div>
+                            )}
+                            {/* Availability Badges */}
+                            <div className="absolute bottom-4 left-4 flex gap-2">
+                              {item.rent && (
+                                <span className="bg-emerald text-white text-xs px-2 py-1 rounded font-body font-semibold">
+                                  Rent
+                                </span>
+                              )}
+                              {item.buy && (
+                                <span className="bg-gold text-charcoal text-xs px-2 py-1 rounded font-body font-semibold">
+                                  Buy
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          <div className="p-5 space-y-3">
+                            <h3 className="font-semibold text-xl text-charcoal font-heading">{item.title}</h3>
+                            <div className="flex items-center text-sm text-slate-grey font-body">
+                              <span>{item.category}</span>
+                              <span className="mx-2">•</span>
+                              <span>{item.location}</span>
+                            </div>
+                            <div className="flex items-center">
+                              <div className="flex text-accent">
+                                {[...Array(5)].map((_, i) => (
+                                  <FaStar 
+                                    key={i} 
+                                    className={i < Math.floor(item.rating) ? 'text-accent' : 'text-background-400'} 
+                                  />
+                                ))}
+                              </div>
+                              <span className="ml-2 text-sm text-slate-grey font-body">({item.reviews})</span>
+                            </div>
+                            
+                            {/* Price Display */}
+                            <div className="space-y-1">
+                              {prices.rent && (
+                                <p className="font-bold text-emerald text-lg font-body">
+                                  {prices.rent}
+                                </p>
+                              )}
+                              {prices.buy && (
+                                <p className="font-bold text-gold text-lg font-body">
+                                  Buy: {prices.buy}
+                                </p>
+                              )}
+                              {item.rent && item.deposit && (
+                                <p className="text-slate-grey text-sm font-body">
+                                  Deposit: UGX {item.deposit.toLocaleString()}
+                                </p>
+                              )}
+                            </div>
+                            
+                            <div className="flex flex-wrap gap-2">
+                              {item.tags.slice(0, 3).map((tag, idx) => (
+                                <span key={idx} className="text-xs bg-background-200 text-slate-grey px-3 py-1.5 rounded-full font-body">
+                                  #{tag}
+                                </span>
+                              ))}
+                            </div>
+                            
+                            <div className="flex gap-3 mt-4">
+                              <button
+                                onClick={() => handleView(item)}
+                                className="flex-1 bg-background-200 text-charcoal py-3 rounded-xl hover:bg-background-300 transition-all font-body font-semibold"
+                              >
+                                View Details
+                              </button>
+                              {item.rent && (
+                                <button
+                                  onClick={() => handleRent(item)}
+                                  disabled={!item.available}
+                                  className={`flex-1 py-3 rounded-xl text-sm font-body font-semibold transition-all ${
+                                    item.available 
+                                      ? 'bg-emerald text-white hover:bg-forest shadow-lg hover:shadow-xl' 
+                                      : 'bg-background-300 text-slate-grey cursor-not-allowed'
+                                  }`}
+                                >
+                                  Rent
+                                </button>
+                              )}
+                              {item.buy && (
+                                <button
+                                  onClick={() => handleBuy(item)}
+                                  disabled={!item.available}
+                                  className={`flex-1 py-3 rounded-xl text-sm font-body font-semibold transition-all ${
+                                    item.available 
+                                      ? 'bg-gold text-charcoal hover:bg-accent-600 shadow-lg hover:shadow-xl' 
+                                      : 'bg-background-300 text-slate-grey cursor-not-allowed'
+                                  }`}
+                                >
+                                  Buy
+                                </button>
+                              )}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))
+                      );
+                    })
                   ) : (
                     <div className="col-span-full text-center py-16">
                       <FaSearch className="text-6xl text-background-400 mb-6 mx-auto" />
@@ -658,7 +871,7 @@ export default function BrowsePage() {
         </div>
       </section>
 
-      {/* Rental/Buy Modal */}
+      {/* Quick Action Modal */}
       {modalOpen && selectedItem && (
         <div className="fixed inset-0 bg-charcoal bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl">
@@ -678,7 +891,10 @@ export default function BrowsePage() {
                 </div>
                 <div className="flex-1">
                   <h4 className="font-semibold text-lg text-charcoal font-heading mb-2">{selectedItem.title}</h4>
-                  <p className="text-emerald font-bold text-xl font-body">UGX {selectedItem.price.toLocaleString()}</p>
+                  <p className="text-emerald font-bold text-xl font-body">
+                    UGX {actionType === "rent" ? selectedItem.price.toLocaleString() : selectedItem.buyPrice.toLocaleString()}
+                    {actionType === "rent" && "/day"}
+                  </p>
                   {actionType === "rent" && (
                     <p className="text-sm text-slate-grey font-body">Deposit: UGX {selectedItem.deposit.toLocaleString()}</p>
                   )}
@@ -720,7 +936,11 @@ export default function BrowsePage() {
                 <div className="space-y-3 text-sm font-body">
                   <div className="flex justify-between">
                     <span className="text-slate-grey">{actionType === "rent" ? "Rental Cost" : "Item Price"}</span>
-                    <span className="text-charcoal font-semibold">UGX {actionType === "rent" ? (selectedItem.price * rentalDays).toLocaleString() : selectedItem.price.toLocaleString()}</span>
+                    <span className="text-charcoal font-semibold">
+                      UGX {actionType === "rent" 
+                        ? (selectedItem.price * rentalDays).toLocaleString() 
+                        : selectedItem.buyPrice.toLocaleString()}
+                    </span>
                   </div>
                   {actionType === "rent" && (
                     <div className="flex justify-between">
@@ -730,9 +950,10 @@ export default function BrowsePage() {
                   )}
                   <div className="border-t border-background-300 pt-3 mt-3 font-medium flex justify-between">
                     <span className="text-charcoal">Total Amount</span>
-                    <span className="text-emerald font-bold">UGX {actionType === "rent" 
-                      ? (selectedItem.price * rentalDays + selectedItem.deposit).toLocaleString() 
-                      : selectedItem.price.toLocaleString()}
+                    <span className="text-emerald font-bold">
+                      UGX {actionType === "rent" 
+                        ? (selectedItem.price * rentalDays + selectedItem.deposit).toLocaleString() 
+                        : selectedItem.buyPrice.toLocaleString()}
                     </span>
                   </div>
                 </div>
@@ -742,7 +963,7 @@ export default function BrowsePage() {
                 onClick={handleConfirm}
                 className="w-full bg-emerald text-white py-4 rounded-xl font-semibold hover:bg-forest transition-all shadow-lg hover:shadow-xl font-body text-lg"
               >
-                Confirm {actionType === "rent" ? "Rental" : "Purchase"}
+                {actionType === "rent" ? "Continue to Rent" : "Continue to Purchase"}
               </button>
             </div>
           </div>

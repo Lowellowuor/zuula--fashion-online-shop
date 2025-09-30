@@ -1,57 +1,78 @@
 // src/pages/ItemDetailPage.jsx
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { Star, ShieldCheck, Heart, Share2, Calendar, MapPin, Tag } from "lucide-react";
+import { Star, ShieldCheck, Heart, Share2, Calendar, MapPin, Tag, ArrowLeft } from "lucide-react";
 
 function ItemDetailPage() {
   const { id } = useParams();
+  const location = useLocation();
+  
+  // Get the item data passed from BrowsePage
+  const { item: passedItem } = location.state || {};
 
-  // Dummy data – replace with backend later
+  // Dummy data – fallback if no item is passed
   const outfits = [
     {
       id: 1,
-      title: "Elegant Wedding Gown",
-      price: 150000,
-      deposit: 50000,
+      title: "Elegant Gomesi",
+      price: 100000,
+      deposit: 20000,
       category: "Wedding",
       size: "M",
+      color: "Red",
       status: "Available",
-      tags: ["Wedding", "White", "Elegant", "Lace"],
-      seller: "Sarah K.",
+      tags: ["traditional", "wedding", "ugandaculture"],
+      seller: "Fashionista01",
       verified: true,
       location: "Kampala",
-      images: ["../assets/download(4).jpg"],
-      description: "A beautiful white wedding gown with intricate lace detailing, perfect for special occasions. Size M, available for 3-day rentals. Professionally cleaned and maintained.",
-      features: ["Lace detailing", "Train included", "Professional cleaning", "Size adjustments available"],
-      reviews: [
-        { user: "Alice", rating: 5, comment: "Absolutely stunning! The dress fit perfectly and made me feel like a princess.", date: "2024-01-15" },
-        { user: "Mary", rating: 4, comment: "Beautiful gown, looked amazing in photos. Delivery was a bit late but worth the wait.", date: "2024-01-08" },
+      condition: "Excellent",
+      rating: 4.8,
+      reviews: 24,
+      available: true,
+      rent: true,
+      image: "https://images.unsplash.com/photo-1596466500176-aff9f0b2a4a5?w=400&h=500&fit=crop",
+      images: ["https://images.unsplash.com/photo-1596466500176-aff9f0b2a4a5?w=400&h=500&fit=crop"],
+      description: "Beautiful traditional Gomesi perfect for wedding ceremonies and cultural events. Made with high-quality fabric and excellent craftsmanship.",
+      features: ["High-quality fabric", "Traditional design", "Excellent condition", "Professional cleaning"],
+      reviewsList: [
+        { user: "Alice", rating: 5, comment: "Absolutely stunning! The Gomesi fit perfectly and was exactly as described.", date: "2024-01-15" },
+        { user: "Mary", rating: 4, comment: "Beautiful traditional wear, looked amazing in photos. Delivery was prompt.", date: "2024-01-08" },
       ],
+      dateAdded: "Sept 20, 2025"
     },
     {
       id: 2,
-      title: "Birthday Party Dress",
-      price: 80000,
-      deposit: 30000,
+      title: "Floral Party Dress",
+      price: 50000,
+      deposit: 10000,
       category: "Party",
       size: "S",
-      status: "Rented Out",
-      tags: ["Party", "Red", "Trendy", "Evening"],
-      seller: "Grace M.",
+      color: "Floral",
+      status: "Available",
+      tags: ["party", "floral", "trending"],
+      seller: "Trendsetter",
       verified: false,
       location: "Entebbe",
-      images: ["../assets/download(1).jpg"],
-      description: "Trendy red party dress, size S. Comfortable and elegant for evening events with a flattering silhouette.",
-      features: ["Evening wear", "Comfortable fit", "Dry clean only"],
-      reviews: [],
+      condition: "Good",
+      rating: 4.2,
+      reviews: 12,
+      available: true,
+      rent: true,
+      image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=500&fit=crop",
+      images: ["https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=500&fit=crop"],
+      description: "Elegant floral dress perfect for parties and special occasions. Lightweight and comfortable with a flattering fit.",
+      features: ["Lightweight fabric", "Comfortable fit", "Floral pattern", "Evening wear"],
+      reviewsList: [],
+      dateAdded: "Sept 18, 2025"
     },
   ];
 
-  const outfit = outfits.find((item) => item.id === parseInt(id));
+  // Use the passed item or find from dummy data
+  const outfit = passedItem || outfits.find((item) => item.id === parseInt(id));
 
   // UI state
   const [selectedDate, setSelectedDate] = useState("");
-  const [mainImage, setMainImage] = useState(outfit?.images[0]);
+  const [mainImage, setMainImage] = useState(outfit?.image || outfit?.images?.[0]);
   const [wishlist, setWishlist] = useState(false);
 
   if (!outfit) {
@@ -60,26 +81,24 @@ function ItemDetailPage() {
         <div className="text-center py-12">
           <h2 className="text-2xl font-heading text-text-primary mb-4">Outfit Not Found</h2>
           <p className="text-text-secondary mb-6">The item you are looking for doesn't exist.</p>
-          <Link to="/browse" className="text-primary font-semibold hover:underline">
-            ← Back to Browse
+          <Link to="/browse" className="text-primary font-semibold hover:underline flex items-center gap-2">
+            <ArrowLeft size={16} />
+            Back to Browse
           </Link>
         </div>
       </div>
     );
   }
 
-  // Review average
-  const avgRating =
-    outfit.reviews.length > 0
-      ? (
-          outfit.reviews.reduce((sum, r) => sum + r.rating, 0) /
-          outfit.reviews.length
-        ).toFixed(1)
-      : null;
+  // Review average - handle both reviews and reviewsList for compatibility
+  const reviews = outfit.reviewsList || [];
+  const avgRating = reviews.length > 0
+    ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
+    : outfit.rating || null;
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto space-y-8 p-6">
+      <div className="max-w-7xl mx-auto space-y-8 p-6 pt-24">
         {/* Breadcrumb */}
         <nav className="text-sm text-text-muted">
           <Link to="/" className="hover:text-primary transition-colors">Home</Link>
@@ -103,7 +122,7 @@ function ItemDetailPage() {
               </div>
             </div>
             <div className="flex gap-3">
-              {outfit.images.map((img, idx) => (
+              {(outfit.images || [outfit.image]).map((img, idx) => (
                 <div
                   key={idx}
                   onClick={() => setMainImage(img)}
@@ -134,12 +153,18 @@ function ItemDetailPage() {
                       {outfit.location}
                     </span>
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      outfit.status === "Available" 
+                      outfit.available 
                         ? "bg-primary-100 text-primary" 
                         : "bg-red-100 text-red-600"
                     }`}>
-                      {outfit.status}
+                      {outfit.available ? "Available" : "Not Available"}
                     </span>
+                    {outfit.verified && (
+                      <span className="flex items-center gap-1 px-2 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs">
+                        <ShieldCheck size={12} />
+                        Verified Seller
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -162,6 +187,22 @@ function ItemDetailPage() {
                     <Share2 size={20} className="text-text-muted" />
                   </button>
                 </div>
+              </div>
+
+              {/* Rating */}
+              <div className="flex items-center gap-2 mb-4">
+                <div className="flex text-accent">
+                  {[...Array(5)].map((_, i) => (
+                    <Star 
+                      key={i} 
+                      size={18}
+                      className={i < Math.floor(avgRating) ? 'text-accent fill-accent' : 'text-background-300'} 
+                    />
+                  ))}
+                </div>
+                <span className="text-sm text-text-muted">
+                  ({outfit.reviews || reviews.length} reviews)
+                </span>
               </div>
 
               {/* Description */}
@@ -201,23 +242,35 @@ function ItemDetailPage() {
                   <p className="text-3xl font-bold text-primary">
                     UGX {outfit.price.toLocaleString()}
                   </p>
-                  <span className="text-sm text-text-muted">/ rental</span>
+                  {outfit.rent && <span className="text-sm text-text-muted">/ day</span>}
                 </div>
-                <p className="text-text-secondary">
-                  Refundable Deposit: <span className="font-semibold text-accent">UGX {outfit.deposit.toLocaleString()}</span>
-                </p>
+                {outfit.rent && (
+                  <p className="text-text-secondary">
+                    Refundable Deposit: <span className="font-semibold text-accent">UGX {outfit.deposit.toLocaleString()}</span>
+                  </p>
+                )}
               </div>
 
-              {/* Size & Category */}
-              <div className="grid grid-cols-2 gap-4 mb-6">
+              {/* Size, Color & Category */}
+              <div className="grid grid-cols-3 gap-4 mb-6">
                 <div>
                   <label className="block text-sm font-medium text-text-muted mb-1">Size</label>
                   <p className="font-semibold text-text-primary">{outfit.size}</p>
                 </div>
                 <div>
+                  <label className="block text-sm font-medium text-text-muted mb-1">Color</label>
+                  <p className="font-semibold text-text-primary">{outfit.color}</p>
+                </div>
+                <div>
                   <label className="block text-sm font-medium text-text-muted mb-1">Category</label>
                   <p className="font-semibold text-text-primary">{outfit.category}</p>
                 </div>
+              </div>
+
+              {/* Condition */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-text-muted mb-1">Condition</label>
+                <p className="font-semibold text-text-primary">{outfit.condition}</p>
               </div>
 
               {/* Booking */}
@@ -231,6 +284,7 @@ function ItemDetailPage() {
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
                   className="premium-card border-background-300 w-full px-4 py-3 focus:ring-2 focus:ring-primary focus:border-transparent"
+                  min={new Date().toISOString().split('T')[0]}
                 />
               </div>
 
@@ -255,12 +309,24 @@ function ItemDetailPage() {
 
               {/* Actions */}
               <div className="flex gap-4 mt-6">
-                <button className="btn-primary flex-1 py-3">
-                  Rent Now
+                <button 
+                  className={`btn-primary flex-1 py-3 ${
+                    !outfit.available ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                  disabled={!outfit.available}
+                >
+                  {outfit.rent ? 'Rent Now' : 'Buy Now'}
                 </button>
-                <button className="btn-gold py-3 px-6">
-                  Buy Now
-                </button>
+                {outfit.rent && (
+                  <button 
+                    className={`btn-gold py-3 px-6 ${
+                      !outfit.available ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    disabled={!outfit.available}
+                  >
+                    Buy Outright
+                  </button>
+                )}
               </div>
               <button className="w-full mt-3 border border-primary text-primary px-6 py-3 rounded-lg hover:bg-primary-50 transition-all duration-300 font-semibold">
                 Message Seller
@@ -290,7 +356,7 @@ function ItemDetailPage() {
                   ))}
                 </div>
                 <p className="text-text-secondary">
-                  Based on {outfit.reviews.length} review{outfit.reviews.length !== 1 ? 's' : ''}
+                  Based on {reviews.length} review{reviews.length !== 1 ? 's' : ''}
                 </p>
               </div>
             </div>
@@ -299,7 +365,7 @@ function ItemDetailPage() {
           )}
           
           <div className="space-y-6">
-            {outfit.reviews.map((review, idx) => (
+            {reviews.map((review, idx) => (
               <div key={idx} className="border-b border-background-300 pb-6 last:border-0">
                 <div className="flex items-center justify-between mb-2">
                   <p className="font-heading font-medium text-text-primary">{review.user}</p>
@@ -322,15 +388,17 @@ function ItemDetailPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {outfits
               .filter((item) => item.id !== outfit.id)
+              .slice(0, 3)
               .map((suggested) => (
                 <Link
                   key={suggested.id}
                   to={`/item/${suggested.id}`}
+                  state={{ item: suggested }}
                   className="premium-card p-0 overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300 group"
                 >
                   <div className="bg-background-200 h-48 flex items-center justify-center overflow-hidden">
                     <img
-                      src={suggested.images[0]}
+                      src={suggested.image}
                       alt={suggested.title}
                       className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -342,13 +410,14 @@ function ItemDetailPage() {
                     <div className="flex justify-between items-center">
                       <p className="text-lg font-bold text-primary">
                         UGX {suggested.price.toLocaleString()}
+                        {suggested.rent && <span className="text-sm text-text-muted">/day</span>}
                       </p>
                       <span className={`text-xs px-2 py-1 rounded-full ${
-                        suggested.status === "Available" 
+                        suggested.available 
                           ? "bg-primary-100 text-primary" 
                           : "bg-red-100 text-red-600"
                       }`}>
-                        {suggested.status}
+                        {suggested.available ? "Available" : "Not Available"}
                       </span>
                     </div>
                   </div>
@@ -363,7 +432,8 @@ function ItemDetailPage() {
             to="/browse" 
             className="inline-flex items-center gap-2 text-primary font-semibold hover:underline transition-colors"
           >
-            ← Back to Browse
+            <ArrowLeft size={16} />
+            Back to Browse
           </Link>
         </div>
       </div>
