@@ -300,6 +300,21 @@ export default function WishlistPage() {
     closeModal();
   };
 
+  // Navigation functions - SAME AS BROWSER PAGE
+  const handleView = (item) => {
+    navigate(`/item/${item.id}`, { state: { item } });
+  };
+
+  const handleRent = (item) => {
+    if (item.rent) {
+      navigate(`/rent/${item.id}`, { state: { item } });
+    }
+  };
+
+  const handleBuy = (item) => {
+    navigate(`/buy/${item.id}`, { state: { item } });
+  };
+
   // Get all unique tags
   const allTags = Array.from(new Set(sampleOutfits.flatMap(item => item.tags)));
 
@@ -710,17 +725,17 @@ export default function WishlistPage() {
                           </div>
                         </div>
 
-                        {/* Actions */}
+                        {/* Actions - UPDATED TO MATCH BROWSER PAGE */}
                         <div className="flex gap-2 mt-3">
                           <button
-                            onClick={() => navigate(`/item/${item.id}`)}
+                            onClick={() => handleView(item)}
                             className="flex-1 bg-background-300 text-text-secondary py-2 rounded-xl hover:bg-background-400 transition-colors text-sm font-medium"
                           >
                             View Details
                           </button>
                           {item.available && item.rent && (
                             <button
-                              onClick={() => openModal(item, "rent")}
+                              onClick={() => handleRent(item)}
                               className="flex-1 btn-primary py-2 rounded-xl text-sm font-medium"
                             >
                               Rent
@@ -728,7 +743,7 @@ export default function WishlistPage() {
                           )}
                           {item.available && (
                             <button
-                              onClick={() => openModal(item, "buy")}
+                              onClick={() => handleBuy(item)}
                               className="flex-1 bg-primary-700 text-white py-2 rounded-xl hover:bg-primary-800 transition-colors text-sm font-medium"
                             >
                               Buy

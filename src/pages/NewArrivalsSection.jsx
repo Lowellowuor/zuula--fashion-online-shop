@@ -18,7 +18,7 @@ export default function NewArrivalsSection() {
   const [actionType, setActionType] = useState("");
   const [rentalDays, setRentalDays] = useState(1);
 
-  // Sample new arrivals data
+  // Sample new arrivals data with CURRENT DATES
   const newArrivals = [
     {
       id: 101,
@@ -34,7 +34,7 @@ export default function NewArrivalsSection() {
       verified: true,
       size: "42",
       color: "Multi-color",
-      addedDate: "2023-10-20",
+      addedDate: "2025-01-20", // Updated to current year
       isJustAdded: true,
       trending: true,
       tags: ["#wedding", "#floral", "#maxidress"],
@@ -54,7 +54,7 @@ export default function NewArrivalsSection() {
       verified: true,
       size: "44",
       color: "Purple",
-      addedDate: "2023-10-19",
+      addedDate: "2025-01-19", // Updated to current year
       isJustAdded: true,
       tags: ["#traditional", "#gomesi", "#golddetails"],
       description: "Modern take on the traditional Gomesi with intricate gold details. A perfect blend of contemporary and traditional styles."
@@ -73,7 +73,7 @@ export default function NewArrivalsSection() {
       verified: false,
       size: "40",
       color: "Blue",
-      addedDate: "2023-10-18",
+      addedDate: "2025-01-18", // Updated to current year
       isJustAdded: true,
       tags: ["#graduation", "#formal", "#academic"],
       description: "Complete graduation set including stole and dress. Perfect for your special academic achievement day."
@@ -92,7 +92,7 @@ export default function NewArrivalsSection() {
       verified: true,
       size: "46",
       color: "Gold",
-      addedDate: "2023-10-15",
+      addedDate: "2025-01-15", // Updated to current year
       isJustAdded: false,
       viewers: 12,
       tags: ["#kwanjula", "#african", "#traditional"],
@@ -112,7 +112,7 @@ export default function NewArrivalsSection() {
       verified: false,
       size: "38",
       color: "Black",
-      addedDate: "2023-10-10",
+      addedDate: "2025-01-10", // Updated to current year
       isJustAdded: false,
       wishlistAdds: 8,
       tags: ["#party", "#sequined", "#evening"],
@@ -132,7 +132,7 @@ export default function NewArrivalsSection() {
       verified: true,
       size: "40",
       color: "Ivory",
-      addedDate: "2023-10-05",
+      addedDate: "2025-01-05", // Updated to current year
       isJustAdded: false,
       premiumOnly: true,
       tags: ["#bridal", "#wedding", "#train"],
@@ -152,7 +152,7 @@ export default function NewArrivalsSection() {
       verified: true,
       size: "M",
       color: "Brown",
-      addedDate: "2023-10-22",
+      addedDate: "2025-01-22", // Updated to current year
       isJustAdded: true,
       tags: ["#cultural", "#traditional", "#barkcloth"],
       description: "Authentic bark cloth outfit showcasing Uganda's cultural heritage. Unique and eye-catching design."
@@ -171,7 +171,7 @@ export default function NewArrivalsSection() {
       verified: true,
       size: "L",
       color: "Navy",
-      addedDate: "2023-10-21",
+      addedDate: "2025-01-21", // Updated to current year
       isJustAdded: true,
       tags: ["#office", "#professional", "#executive"],
       description: "Elegant executive suit perfect for office wear and professional events. Tailored for a perfect fit."
@@ -185,6 +185,21 @@ export default function NewArrivalsSection() {
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
+
+  // Navigation functions - SAME AS BROWSER PAGE
+  const handleView = (item) => {
+    navigate(`/item/${item.id}`, { state: { item } });
+  };
+
+  const handleRent = (item) => {
+    if (item.rent) {
+      navigate(`/rent/${item.id}`, { state: { item } });
+    }
+  };
+
+  const handleBuy = (item) => {
+    navigate(`/buy/${item.id}`, { state: { item } });
+  };
 
   // Filter items based on time filter and search
   const filteredItems = newArrivals.filter(item => {
@@ -801,9 +816,10 @@ export default function NewArrivalsSection() {
                       )}
                     </div>
                     
+                    {/* Updated Actions Section - SAME AS BROWSER PAGE */}
                     <div className="flex gap-3 mt-6">
                       <button
-                        onClick={() => navigate(`/item/${item.id}`)}
+                        onClick={() => handleView(item)}
                         style={{
                           flex: 1,
                           backgroundColor: '#eae5ca',
@@ -813,7 +829,11 @@ export default function NewArrivalsSection() {
                           border: 'none',
                           cursor: 'pointer',
                           fontWeight: '500',
-                          transition: 'all 0.3s ease'
+                          transition: 'all 0.3s ease',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.5rem'
                         }}
                         onMouseOver={(e) => {
                           e.target.style.backgroundColor = '#e0d9b4';
@@ -822,10 +842,11 @@ export default function NewArrivalsSection() {
                           e.target.style.backgroundColor = '#eae5ca';
                         }}
                       >
-                        View Details
+                        <FaEye />
+                        View
                       </button>
                       <button
-                        onClick={() => openModal(item, "rent")}
+                        onClick={() => handleRent(item)}
                         disabled={!item.available}
                         style={{
                           flex: 1,
@@ -842,7 +863,27 @@ export default function NewArrivalsSection() {
                           boxShadow: item.available ? '0 4px 15px rgba(4, 108, 78, 0.3)' : 'none'
                         }}
                       >
-                        Rent Now
+                        Rent
+                      </button>
+                      <button
+                        onClick={() => handleBuy(item)}
+                        disabled={!item.available}
+                        style={{
+                          flex: 1,
+                          background: item.available 
+                            ? 'linear-gradient(135deg, #D4AF37 0%, #b89422 100%)'
+                            : '#d1d5db',
+                          color: item.available ? '#013c2b' : '#6b7280',
+                          padding: '0.875rem',
+                          borderRadius: '8px',
+                          border: 'none',
+                          cursor: item.available ? 'pointer' : 'not-allowed',
+                          fontWeight: '600',
+                          transition: 'all 0.3s ease',
+                          boxShadow: item.available ? '0 4px 15px rgba(212, 175, 55, 0.3)' : 'none'
+                        }}
+                      >
+                        Buy
                       </button>
                     </div>
                   </div>
@@ -951,192 +992,6 @@ export default function NewArrivalsSection() {
           </button>
         </div>
       </div>
-
-      {/* Rental/Buy Modal */}
-      {modalOpen && selectedItem && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl max-w-md w-full max-h-[90vh] overflow-y-auto" style={{
-            boxShadow: '0 25px 50px rgba(0, 0, 0, 0.25)'
-          }}>
-            <div className="p-8">
-              <div className="flex justify-between items-center mb-6">
-                <h3 style={{
-                  fontFamily: 'Georgia, serif',
-                  fontSize: '1.5rem',
-                  fontWeight: '600',
-                  color: '#024c37'
-                }}>
-                  Rent Outfit
-                </h3>
-                <button 
-                  onClick={closeModal} 
-                  style={{
-                    color: '#718096',
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: '0.5rem'
-                  }}
-                >
-                  <FaTimes size={20} />
-                </button>
-              </div>
-              
-              <div className="flex gap-4 mb-8">
-                <div className="w-24 h-24 rounded-lg overflow-hidden" style={{
-                  backgroundColor: '#f0f7f4'
-                }}>
-                  <img src={selectedItem.image} alt={selectedItem.title} className="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <h4 style={{
-                    fontWeight: '600',
-                    color: '#024c37',
-                    marginBottom: '0.25rem'
-                  }}>
-                    {selectedItem.title}
-                  </h4>
-                  <p style={{
-                    color: '#046C4E',
-                    fontWeight: '700',
-                    fontSize: '1.125rem'
-                  }}>
-                    UGX {selectedItem.price.toLocaleString()}
-                  </p>
-                  <p style={{
-                    fontSize: '0.875rem',
-                    color: '#4A5568'
-                  }}>
-                    Deposit: UGX {selectedItem.deposit.toLocaleString()}
-                  </p>
-                </div>
-              </div>
-              
-              <div className="mb-8">
-                <label style={{
-                  display: 'block',
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
-                  color: '#3E2723',
-                  marginBottom: '0.75rem'
-                }}>
-                  Rental Period (Days)
-                </label>
-                <div className="flex items-center">
-                  <button 
-                    onClick={() => setRentalDays(prev => Math.max(1, prev - 1))}
-                    style={{
-                      width: '2.5rem',
-                      height: '2.5rem',
-                      backgroundColor: '#eae5ca',
-                      borderTopLeftRadius: '8px',
-                      borderBottomLeftRadius: '8px',
-                      border: 'none',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#3E2723'
-                    }}
-                  >
-                    <FaChevronLeft size={12} />
-                  </button>
-                  <input
-                    type="number"
-                    min="1"
-                    value={rentalDays}
-                    onChange={(e) => setRentalDays(Math.max(1, parseInt(e.target.value) || 1))}
-                    style={{
-                      width: '4rem',
-                      height: '2.5rem',
-                      borderTop: '2px solid #b8ddd1',
-                      borderBottom: '2px solid #b8ddd1',
-                      borderLeft: 'none',
-                      borderRight: 'none',
-                      textAlign: 'center',
-                      color: '#3E2723'
-                    }}
-                  />
-                  <button 
-                    onClick={() => setRentalDays(prev => prev + 1)}
-                    style={{
-                      width: '2.5rem',
-                      height: '2.5rem',
-                      backgroundColor: '#eae5ca',
-                      borderTopRightRadius: '8px',
-                      borderBottomRightRadius: '8px',
-                      border: 'none',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#3E2723'
-                    }}
-                  >
-                    <FaChevronRight size={12} />
-                  </button>
-                </div>
-                <p style={{
-                  fontSize: '0.875rem',
-                  color: '#4A5568',
-                  marginTop: '0.75rem'
-                }}>
-                  Total: UGX {(selectedItem.price * rentalDays).toLocaleString()}
-                </p>
-              </div>
-              
-              <div className="p-6 rounded-lg mb-8" style={{
-                backgroundColor: '#f0f7f4',
-                border: '1px solid #b8ddd1'
-              }}>
-                <h4 style={{
-                  fontWeight: '600',
-                  marginBottom: '0.75rem',
-                  color: '#024c37'
-                }}>
-                  Summary
-                </h4>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span style={{ color: '#4A5568' }}>Rental Cost</span>
-                    <span style={{ color: '#3E2723' }}>UGX {(selectedItem.price * rentalDays).toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span style={{ color: '#4A5568' }}>Refundable Deposit</span>
-                    <span style={{ color: '#3E2723' }}>UGX {selectedItem.deposit.toLocaleString()}</span>
-                  </div>
-                  <div style={{
-                    borderTop: '2px solid #b8ddd1',
-                    paddingTop: '0.75rem',
-                    marginTop: '0.75rem'
-                  }} className="font-medium flex justify-between">
-                    <span style={{ fontWeight: '600', color: '#024c37' }}>Total Amount</span>
-                    <span style={{ fontWeight: '700', color: '#046C4E' }}>UGX {(selectedItem.price * rentalDays + selectedItem.deposit).toLocaleString()}</span>
-                  </div>
-                </div>
-              </div>
-              
-              <button
-                onClick={handleConfirm}
-                style={{
-                  width: '100%',
-                  background: 'linear-gradient(135deg, #046C4E 0%, #035c43 100%)',
-                  color: 'white',
-                  padding: '1rem',
-                  borderRadius: '8px',
-                  fontWeight: '600',
-                  border: 'none',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  boxShadow: '0 4px 15px rgba(4, 108, 78, 0.3)'
-                }}
-              >
-                Confirm Rental
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       <style jsx>{`
         @keyframes float {

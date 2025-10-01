@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FaHeart, FaRegHeart, FaSearch, FaFilter, FaTh, FaList,
-  FaChevronLeft, FaChevronRight, FaStar, FaArrowRight, FaTimes
+  FaChevronLeft, FaChevronRight, FaStar, FaArrowRight, FaTimes,
+  FaEye
 } from "react-icons/fa";
 
 export default function PopularCategoriesPage() {
@@ -75,6 +76,21 @@ export default function PopularCategoriesPage() {
 
   const toggleWishlist = (id) => {
     setWishlist(prev => prev.includes(id) ? prev.filter(w => w !== id) : [...prev, id]);
+  };
+
+  // Navigation functions - SAME AS BROWSER PAGE
+  const handleView = (item) => {
+    navigate(`/item/${item.id}`, { state: { item } });
+  };
+
+  const handleRent = (item) => {
+    if (item.rent) {
+      navigate(`/rent/${item.id}`, { state: { item } });
+    }
+  };
+
+  const handleBuy = (item) => {
+    navigate(`/buy/${item.id}`, { state: { item } });
   };
 
   // Filtering
@@ -348,9 +364,31 @@ export default function PopularCategoriesPage() {
                       {item.tags.map((tag, i) => <span key={i} className="text-xs bg-accent/20 text-accent px-2 py-1 rounded-full">{tag}</span>)}
                     </div>
                   </div>
+                  {/* Updated Actions Section - SAME AS BROWSER PAGE */}
                   <div className="mt-4 flex gap-2 flex-wrap">
-                    {item.rent && <button onClick={() => openModal(item, "rent")} className="flex-1 px-3 py-2 bg-forest text-ivory rounded-lg hover:bg-forest-dark">Rent</button>}
-                    <button onClick={() => openModal(item, "buy")} className="flex-1 px-3 py-2 bg-accent text-ivory rounded-lg hover:bg-accent-dark">Buy</button>
+                    <button 
+                      onClick={() => handleView(item)}
+                      className="flex-1 px-3 py-2 bg-gray-200 text-charcoal rounded-lg hover:bg-gray-300 flex items-center justify-center gap-2"
+                    >
+                      <FaEye />
+                      View
+                    </button>
+                    {item.available && item.rent && (
+                      <button 
+                        onClick={() => handleRent(item)}
+                        className="flex-1 px-3 py-2 bg-forest text-ivory rounded-lg hover:bg-forest-dark"
+                      >
+                        Rent
+                      </button>
+                    )}
+                    {item.available && (
+                      <button 
+                        onClick={() => handleBuy(item)}
+                        className="flex-1 px-3 py-2 bg-accent text-ivory rounded-lg hover:bg-accent-dark"
+                      >
+                        Buy
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
