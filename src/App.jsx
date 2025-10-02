@@ -81,7 +81,7 @@ function App() {
         <Route path="/edit-listing/:id" element={<EditListingPage />} />
         <Route path="/edit/:id/:type" element={<EditPage />} />
         <Route path="/dashboard/earnings" element={<EarningsPage />} />
-        <Route path="/dashboard/listings/:id" element={<ListingPage />} />
+        <Route path="/dashboard/listings/" element={<ListingPage />} />
 
         {/* Terms and Conditions - Added both paths for flexibility */}
         <Route path="/terms" element={<TermsAndConditionsPage />} />
