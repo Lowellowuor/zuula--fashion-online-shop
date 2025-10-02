@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaStar, FaHeart, FaRegHeart, FaTh, FaList, FaTimes, FaSearch, FaFilter, FaChevronLeft, FaChevronRight, FaCalendarAlt, FaUser, FaTags, FaArrowRight } from "react-icons/fa";
+import { FaStar, FaHeart, FaRegHeart, FaTh, FaList, FaTimes, FaSearch, FaFilter, FaChevronLeft, FaChevronRight, FaCalendarAlt, FaUser, FaTags, FaArrowRight, FaEye } from "react-icons/fa";
 
 const sampleOutfits = [
   {
@@ -725,26 +725,27 @@ export default function WishlistPage() {
                           </div>
                         </div>
 
-                        {/* Actions - UPDATED TO MATCH BROWSER PAGE */}
-                        <div className="flex gap-2 mt-3">
-                          <button
+                        {/* UPDATED ACTIONS - Matching PopularCategoriesPage styling */}
+                        <div className="mt-4 flex gap-2 flex-wrap">
+                          <button 
                             onClick={() => handleView(item)}
-                            className="flex-1 bg-background-300 text-text-secondary py-2 rounded-xl hover:bg-background-400 transition-colors text-sm font-medium"
+                            className="flex-1 px-3 py-3 bg-gray-200 text-charcoal rounded-lg hover:bg-gray-300 flex items-center justify-center gap-2 transition-all duration-300"
                           >
-                            View Details
+                            <FaEye />
+                            View
                           </button>
                           {item.available && item.rent && (
-                            <button
+                            <button 
                               onClick={() => handleRent(item)}
-                              className="flex-1 btn-primary py-2 rounded-xl text-sm font-medium"
+                              className="flex-1 px-3 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-all duration-300"
                             >
                               Rent
                             </button>
                           )}
                           {item.available && (
-                            <button
+                            <button 
                               onClick={() => handleBuy(item)}
-                              className="flex-1 bg-primary-700 text-white py-2 rounded-xl hover:bg-primary-800 transition-colors text-sm font-medium"
+                              className="flex-1 px-3 py-3 bg-primary-700 text-white rounded-lg hover:bg-primary-800 transition-all duration-300"
                             >
                               Buy
                             </button>

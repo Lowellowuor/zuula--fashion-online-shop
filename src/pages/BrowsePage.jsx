@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { FaSearch, FaHeart, FaRegHeart, FaFilter, FaStar, FaTimes, FaChevronLeft, FaChevronRight, FaCalendarAlt, FaUser, FaTags, FaArrowRight, FaShoppingBag, FaMoneyBillWave } from "react-icons/fa";
+import { FaSearch, FaHeart, FaRegHeart, FaFilter, FaStar, FaTimes, FaChevronLeft, FaChevronRight, FaCalendarAlt, FaUser, FaTags, FaArrowRight, FaShoppingBag, FaMoneyBillWave, FaEye } from "react-icons/fa";
 
 const sampleOutfits = [
   {
@@ -751,35 +751,27 @@ export default function BrowsePage() {
                               ))}
                             </div>
                             
-                            <div className="flex gap-3 mt-4">
-                              <button
+                            {/* UPDATED ACTION BUTTONS - Matching PopularCategoriesPage styling */}
+                            <div className="mt-4 flex gap-2 flex-wrap">
+                              <button 
                                 onClick={() => handleView(item)}
-                                className="flex-1 bg-background-200 text-charcoal py-3 rounded-xl hover:bg-background-300 transition-all font-body font-semibold"
+                                className="flex-1 px-3 py-3 bg-gray-200 text-charcoal rounded-lg hover:bg-gray-300 flex items-center justify-center gap-2 font-body transition-all duration-300"
                               >
-                                View Details
+                                <FaEye />
+                                View
                               </button>
-                              {item.rent && (
-                                <button
+                              {item.available && item.rent && (
+                                <button 
                                   onClick={() => handleRent(item)}
-                                  disabled={!item.available}
-                                  className={`flex-1 py-3 rounded-xl text-sm font-body font-semibold transition-all ${
-                                    item.available 
-                                      ? 'bg-emerald text-white hover:bg-forest shadow-lg hover:shadow-xl' 
-                                      : 'bg-background-300 text-slate-grey cursor-not-allowed'
-                                  }`}
+                                  className="flex-1 px-3 py-3 bg-emerald text-white rounded-lg hover:bg-forest transition-all duration-300 font-body"
                                 >
                                   Rent
                                 </button>
                               )}
-                              {item.buy && (
-                                <button
+                              {item.available && item.buy && (
+                                <button 
                                   onClick={() => handleBuy(item)}
-                                  disabled={!item.available}
-                                  className={`flex-1 py-3 rounded-xl text-sm font-body font-semibold transition-all ${
-                                    item.available 
-                                      ? 'bg-gold text-charcoal hover:bg-accent-600 shadow-lg hover:shadow-xl' 
-                                      : 'bg-background-300 text-slate-grey cursor-not-allowed'
-                                  }`}
+                                  className="flex-1 px-3 py-3 bg-gold text-charcoal rounded-lg hover:bg-accent-600 transition-all duration-300 font-body"
                                 >
                                   Buy
                                 </button>

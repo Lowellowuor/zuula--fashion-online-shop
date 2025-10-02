@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ProfessionalFashionHomepage = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [stats, setStats] = useState({ users: 0, listings: 0, rentals: 0 });
   const [email, setEmail] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchCategory, setSearchCategory] = useState('All Categories');
+  const navigate = useNavigate();
 
   // Animated counter effect
   useEffect(() => {
@@ -25,6 +29,33 @@ const ProfessionalFashionHomepage = () => {
     animateCounter(3400, (val) => setStats(prev => ({...prev, listings: val})));
     animateCounter(8900, (val) => setStats(prev => ({...prev, rentals: val})));
   }, []);
+
+  // Handle search functionality - navigate to browse page
+  const handleSearch = () => {
+    // Navigate to browse page with search parameters
+    navigate('/browse', { 
+      state: { 
+        searchQuery: searchQuery.trim(),
+        category: searchCategory
+      }
+    });
+  };
+
+  // Handle Enter key press in search input
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  // Handle category click - navigate to browse page with category filter
+  const handleCategoryClick = (categoryName) => {
+    navigate('/browse', { 
+      state: { 
+        category: categoryName
+      }
+    });
+  };
 
   const testimonials = [
     {
@@ -75,25 +106,25 @@ const ProfessionalFashionHomepage = () => {
       name: "Wedding Guest", 
       count: "1.2k+ outfits", 
       color: "from-pink-500 to-rose-500",
-      image: "../assets/download1.jpg" // Replace with your image path
+      image: "../assets/download1.jpg"
     },
     { 
       name: "Traditional Gomesi", 
       count: "800+ outfits", 
       color: "from-purple-500 to-indigo-500",
-      image: "../assets/download4.jpg" // Replace with your image path
+      image: "../assets/download4.jpg"
     },
     { 
       name: "Cocktail Party", 
       count: "950+ outfits", 
       color: "from-blue-500 to-cyan-500",
-      image: "../assets/bosslady.jpg" // Replace with your image path
+      image: "../assets/bosslady.jpg"
     },
     { 
       name: "Graduation Gowns", 
       count: "600+ outfits", 
       color: "from-green-500 to-emerald-500",
-      image: "../assets/GraduationGown.jpg",// Replace with your image path
+      image: "../assets/GraduationGown.jpg",
     }
   ];
 
@@ -135,15 +166,26 @@ const ProfessionalFashionHomepage = () => {
                   type="text" 
                   placeholder="Search for dresses, Gomesi, suits, accessories..." 
                   className="flex-1 px-6 py-4 text-text-primary rounded-xl border-0 focus:ring-2 focus:ring-primary"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={handleKeyPress}
                 />
-                <select className="px-4 py-4 text-text-primary rounded-xl border-0 focus:ring-2 focus:ring-primary">
+                <select 
+                  className="px-4 py-4 text-text-primary rounded-xl border-0 focus:ring-2 focus:ring-primary"
+                  value={searchCategory}
+                  onChange={(e) => setSearchCategory(e.target.value)}
+                >
                   <option>All Categories</option>
                   <option>Wedding Guest</option>
                   <option>Traditional</option>
                   <option>Cocktail</option>
                   <option>Formal</option>
+                  <option>Graduation Gowns</option>
                 </select>
-                <button className="btn-primary px-8 py-4 rounded-xl font-semibold whitespace-nowrap">
+                <button 
+                  className="btn-primary px-8 py-4 rounded-xl font-semibold whitespace-nowrap hover:bg-primary-700 transition-all duration-300 transform hover:scale-105"
+                  onClick={handleSearch}
+                >
                   Search Outfits
                 </button>
               </div>
@@ -231,7 +273,11 @@ const ProfessionalFashionHomepage = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {trendingCategories.map((category, index) => (
-              <div key={index} className="group cursor-pointer">
+              <div 
+                key={index} 
+                className="group cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                onClick={() => handleCategoryClick(category.name)}
+              >
                 <div 
                   className={`bg-gradient-to-br ${category.color} rounded-2xl aspect-square relative overflow-hidden`}
                   style={{
@@ -242,14 +288,27 @@ const ProfessionalFashionHomepage = () => {
                     backgroundPosition: 'center'
                   }}
                 >
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all"></div>
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-300"></div>
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                     <h3 className="text-xl font-bold mb-2">{category.name}</h3>
                     <p className="text-white/80">{category.count}</p>
                   </div>
+                  <div className="absolute top-4 right-4 bg-white/90 text-primary-600 px-3 py-1 rounded-full text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Browse →
+                  </div>
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Browse All Button */}
+          <div className="text-center mt-12">
+            <button 
+              onClick={() => navigate('/browse')}
+              className="bg-primary text-white px-8 py-4 rounded-xl font-semibold hover:bg-primary-700 transition-all duration-300 transform hover:scale-105"
+            >
+              Browse All Categories
+            </button>
           </div>
         </div>
       </section>
@@ -281,7 +340,14 @@ const ProfessionalFashionHomepage = () => {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Browse or List Items</h3>
-                  <p className="text-text-secondary">Find perfect outfits for your events or start earning by listing items from your closet.</p>
+                  <p className="text-text-secondary">
+                    <button 
+                      onClick={() => navigate('/browse')}
+                      className="text-primary hover:underline font-semibold"
+                    >
+                      Find perfect outfits
+                    </button> for your events or start earning by listing items from your closet.
+                  </p>
                 </div>
               </div>
 
@@ -304,19 +370,32 @@ const ProfessionalFashionHomepage = () => {
                   <p className="text-text-secondary">Wear with confidence and build your reputation through reviews.</p>
                 </div>
               </div>
+
+              <div className="pt-6">
+                <button 
+                  onClick={() => navigate('/browse')}
+                  className="bg-accent text-primary-900 px-8 py-4 rounded-xl font-bold hover:bg-accent-600 transition-all duration-300 transform hover:scale-105"
+                >
+                  Start Browsing Outfits
+                </button>
+              </div>
             </div>
 
             <div className="bg-white rounded-3xl p-8 shadow-2xl">
               <div 
-                className="bg-background-200 rounded-2xl h-80 flex items-center justify-center bg-cover bg-center"
+                className="bg-background-200 rounded-2xl h-80 flex items-center justify-center bg-cover bg-center cursor-pointer"
                 style={{
                   backgroundImage: 'url(/images/how-it-works-demo.jpg)' // Replace with your demo image
                 }}
+                onClick={() => navigate('/browse')}
               >
                 {/* Fallback content if image doesn't load */}
-                <div className="text-center bg-white/80 backdrop-blur-sm rounded-xl p-6">
+                <div className="text-center bg-white/80 backdrop-blur-sm rounded-xl p-6 hover:bg-white transition-all duration-300">
                   <div className="text-4xl mb-4">👗</div>
-                  <p className="text-text-muted font-semibold">Interactive demo showcase</p>
+                  <p className="text-text-muted font-semibold mb-2">Click to browse outfits</p>
+                  <button className="text-primary font-bold hover:underline">
+                    Explore Collection →
+                  </button>
                 </div>
               </div>
             </div>
@@ -388,7 +467,10 @@ const ProfessionalFashionHomepage = () => {
               placeholder="Enter your email address" 
               className="flex-1 px-6 py-4 rounded-xl text-text-primary border-0 focus:ring-2 focus:ring-accent"
             />
-            <button className="bg-accent text-primary-900 px-8 py-4 rounded-xl font-bold hover:bg-accent-600 transition-all whitespace-nowrap">
+            <button 
+              onClick={() => navigate('/browse')}
+              className="bg-accent text-primary-900 px-8 py-4 rounded-xl font-bold hover:bg-accent-600 transition-all duration-300 transform hover:scale-105 whitespace-nowrap"
+            >
               Get Started Free
             </button>
           </div>

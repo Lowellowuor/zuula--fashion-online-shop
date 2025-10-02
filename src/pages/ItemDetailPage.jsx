@@ -1,11 +1,12 @@
 // src/pages/ItemDetailPage.jsx
-import { useParams, Link, useLocation } from "react-router-dom";
+import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Star, ShieldCheck, Heart, Share2, Calendar, MapPin, Tag, ArrowLeft } from "lucide-react";
 
 function ItemDetailPage() {
   const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   
   // Get the item data passed from BrowsePage
   const { item: passedItem } = location.state || {};
@@ -74,6 +75,37 @@ function ItemDetailPage() {
   const [selectedDate, setSelectedDate] = useState("");
   const [mainImage, setMainImage] = useState(outfit?.image || outfit?.images?.[0]);
   const [wishlist, setWishlist] = useState(false);
+
+  // Navigation handlers
+  const handleRentNow = () => {
+    if (outfit.available && outfit.rent) {
+      navigate(`/rent/${outfit.id}`, { 
+        state: { 
+          item: outfit, 
+          selectedDate 
+        } 
+      });
+    }
+  };
+
+  const handleBuyOutright = () => {
+    if (outfit.available) {
+      navigate(`/buy/${outfit.id}`, { 
+        state: { 
+          item: outfit 
+        } 
+      });
+    }
+  };
+
+  const handleMessageSeller = () => {
+    navigate(`/messages/${outfit.seller}`, { 
+      state: { 
+        item: outfit,
+        seller: outfit.seller
+      } 
+    });
+  };
 
   if (!outfit) {
     return (
@@ -310,8 +342,9 @@ function ItemDetailPage() {
               {/* Actions */}
               <div className="flex gap-4 mt-6">
                 <button 
+                  onClick={handleRentNow}
                   className={`btn-primary flex-1 py-3 ${
-                    !outfit.available ? 'opacity-50 cursor-not-allowed' : ''
+                    !outfit.available ? 'opacity-50 cursor-not-allowed' : 'hover:bg-primary-700 transition-all duration-300'
                   }`}
                   disabled={!outfit.available}
                 >
@@ -319,8 +352,9 @@ function ItemDetailPage() {
                 </button>
                 {outfit.rent && (
                   <button 
+                    onClick={handleBuyOutright}
                     className={`btn-gold py-3 px-6 ${
-                      !outfit.available ? 'opacity-50 cursor-not-allowed' : ''
+                      !outfit.available ? 'opacity-50 cursor-not-allowed' : 'hover:bg-accent-600 transition-all duration-300'
                     }`}
                     disabled={!outfit.available}
                   >
@@ -328,7 +362,10 @@ function ItemDetailPage() {
                   </button>
                 )}
               </div>
-              <button className="w-full mt-3 border border-primary text-primary px-6 py-3 rounded-lg hover:bg-primary-50 transition-all duration-300 font-semibold">
+              <button 
+                onClick={handleMessageSeller}
+                className="w-full mt-3 border border-primary text-primary px-6 py-3 rounded-lg hover:bg-primary-50 transition-all duration-300 font-semibold"
+              >
                 Message Seller
               </button>
             </div>

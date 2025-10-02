@@ -20,7 +20,9 @@ import {
   FaFacebook,
   FaTwitter,
   FaCopy,
-  FaTimes
+  FaTimes,
+  FaEye,
+  FaComment
 } from "react-icons/fa";
 
 export default function ProfilePage() {
@@ -193,6 +195,32 @@ export default function ProfilePage() {
     { label: "Response Rate", value: "98%" },
   ];
 
+  // Navigation handlers
+  const handleEditProfile = () => {
+    navigate('/edit/profile', { state: { user } });
+  };
+
+  const handleEditItem = (item) => {
+    navigate(`/edit/item/${item.id}`, { state: { item } });
+  };
+
+  const handleView = (item) => {
+    navigate(`/item/${item.id}`, { state: { item } });
+  };
+
+  const handleMessage = () => {
+    navigate(`/messages/${user.username}`, { 
+      state: { 
+        user: user,
+        isNewConversation: true 
+      } 
+    });
+  };
+
+  const handleUploadNewItem = () => {
+    navigate('/upload');
+  };
+
   // Share functions
   const handleShare = (item) => {
     setCurrentShareItem(item);
@@ -220,44 +248,19 @@ export default function ProfilePage() {
     const urls = {
       whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + shareUrl)}`,
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
-      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`
+      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`,
+      copy: shareUrl
     };
 
-    window.open(urls[platform], '_blank', 'width=600,height=400');
-  };
-
-  // Edit function - navigate to edit page
-  const handleEdit = (item) => {
-    navigate(`/edit-listing/${item.id}`, { state: { item } });
-  };
-
-  // View function - navigate to item detail page
-  const handleView = (item) => {
-    navigate(`/item/${item.id}`, { state: { item } });
-  };
-
-  // Upload new item function
-  const handleUploadNewItem = () => {
-    navigate('/upload');
+    if (platform === 'copy') {
+      copyToClipboard();
+    } else {
+      window.open(urls[platform], '_blank', 'width=600,height=400');
+    }
   };
 
   return (
     <div className="bg-ivory min-h-screen">
-      {/* Header */}
-      <header className="bg-forest shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gold">Zuula</h1>
-          <div className="flex items-center gap-4">
-            <button className="p-2 text-ivory hover:text-gold transition">
-              <FaCog size={18} />
-            </button>
-            <button className="p-2 text-ivory hover:text-gold transition">
-              <FaSignOutAlt size={18} />
-            </button>
-          </div>
-        </div>
-      </header>
-
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* Profile Header */}
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6 bg-ivory rounded-xl shadow-sm p-6 mb-6 border border-background-300">
@@ -325,11 +328,17 @@ export default function ProfilePage() {
             <p className="mb-4 text-slate-grey">{user.bio}</p>
 
             <div className="flex flex-wrap gap-2">
-              <button className="btn-primary flex items-center gap-2">
+              <button 
+                onClick={handleEditProfile}
+                className="btn-primary flex items-center gap-2"
+              >
                 <FaEdit size={14} /> Edit Profile
               </button>
-              <button className="btn-gold flex items-center gap-2">
-                <FaEnvelope size={14} /> Message
+              <button 
+                onClick={handleMessage}
+                className="border-2 border-forest text-forest rounded-lg px-4 py-2 flex items-center gap-2 hover:bg-forest hover:text-ivory transition-all duration-300 font-semibold"
+              >
+                <FaComment size={14} /> Message
               </button>
               <button className="border border-background-300 text-forest rounded-lg px-4 py-2 flex items-center gap-2 hover:bg-background-100 transition">
                 <FaHeart size={14} /> Follow
@@ -458,16 +467,16 @@ export default function ProfilePage() {
                           </div>
                           <div className="flex gap-2 mt-3">
                             <button 
-                              onClick={() => handleEdit(item)}
+                              onClick={() => handleEditItem(item)}
                               className="flex-1 py-2 btn-primary text-sm flex items-center justify-center gap-2"
                             >
                               <FaEdit size={12} /> Edit
                             </button>
                             <button 
                               onClick={() => handleView(item)}
-                              className="flex-1 py-2 border border-background-300 text-forest rounded-lg hover:bg-background-100 transition text-sm"
+                              className="flex-1 py-2 bg-gray-200 text-charcoal rounded-lg hover:bg-gray-300 transition-all duration-300 text-sm flex items-center justify-center gap-2"
                             >
-                              View
+                              <FaEye size={12} /> View
                             </button>
                             <button 
                               onClick={() => handleShare(item)}
@@ -603,10 +612,14 @@ export default function ProfilePage() {
               </div>
               
               <div className="space-y-4">
-                <div className="flex gap-3 justify-center">
+                <div className="text-center mb-4">
+                  <p className="text-slate-grey font-body">Choose where to share this outfit:</p>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3">
                   <button 
                     onClick={() => shareOnPlatform('whatsapp')}
-                    className="flex flex-col items-center gap-2 p-4 rounded-xl bg-green-50 text-green-600 hover:bg-green-100 transition-all"
+                    className="flex flex-col items-center gap-2 p-4 rounded-xl bg-green-50 text-green-600 hover:bg-green-100 transition-all border-2 border-green-100 hover:border-green-300"
                   >
                     <FaWhatsapp size={24} />
                     <span className="text-sm font-medium">WhatsApp</span>
@@ -614,7 +627,7 @@ export default function ProfilePage() {
                   
                   <button 
                     onClick={() => shareOnPlatform('facebook')}
-                    className="flex flex-col items-center gap-2 p-4 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all"
+                    className="flex flex-col items-center gap-2 p-4 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all border-2 border-blue-100 hover:border-blue-300"
                   >
                     <FaFacebook size={24} />
                     <span className="text-sm font-medium">Facebook</span>
@@ -622,10 +635,18 @@ export default function ProfilePage() {
                   
                   <button 
                     onClick={() => shareOnPlatform('twitter')}
-                    className="flex flex-col items-center gap-2 p-4 rounded-xl bg-blue-50 text-blue-400 hover:bg-blue-100 transition-all"
+                    className="flex flex-col items-center gap-2 p-4 rounded-xl bg-blue-50 text-blue-400 hover:bg-blue-100 transition-all border-2 border-blue-100 hover:border-blue-300"
                   >
                     <FaTwitter size={24} />
                     <span className="text-sm font-medium">Twitter</span>
+                  </button>
+                  
+                  <button 
+                    onClick={() => shareOnPlatform('copy')}
+                    className="flex flex-col items-center gap-2 p-4 rounded-xl bg-background-100 text-forest hover:bg-background-200 transition-all border-2 border-background-200 hover:border-background-300"
+                  >
+                    <FaCopy size={24} />
+                    <span className="text-sm font-medium">Copy Link</span>
                   </button>
                 </div>
                 
